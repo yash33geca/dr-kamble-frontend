@@ -1,0 +1,218 @@
+.section {
+  padding: 100px 0;
+  background: white;
+}
+
+.inner {
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  gap: 80px;
+  align-items: start;
+}
+
+/* Visual column */
+.visual {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  position: sticky;
+  top: 100px;
+}
+
+.photoCard {
+  position: relative;
+  border-radius: var(--radius-xl);
+  overflow: visible;
+}
+
+.photoPlaceholder {
+  width: 100%;
+  aspect-ratio: 4/5;
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%);
+  border-radius: var(--radius-xl);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.photoPlaceholder span {
+  font-family: var(--font-display);
+  font-size: 72px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.15);
+  letter-spacing: 0.05em;
+}
+
+.photoTag {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--navy);
+  box-shadow: var(--shadow-md);
+}
+
+.memberships {
+  background: var(--off-white);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+}
+
+.membershipsTitle {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gray-500);
+  margin-bottom: 12px;
+}
+
+.memberItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 6px 0;
+  font-size: 13px;
+  color: var(--gray-700);
+  line-height: 1.4;
+  border-bottom: 1px solid var(--gray-100);
+}
+
+.memberItem:last-child {
+  border-bottom: none;
+}
+
+.memberDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--teal);
+  flex-shrink: 0;
+  margin-top: 5px;
+}
+
+/* Content column */
+.content {}
+
+.heading {
+  font-size: clamp(28px, 4vw, 42px);
+  margin-bottom: 8px;
+}
+
+.titleRow {
+  font-size: 15px;
+  color: var(--teal);
+  font-weight: 500;
+  margin-bottom: 28px;
+}
+
+.bio {
+  font-size: 16px;
+  color: var(--gray-700);
+  line-height: 1.75;
+  margin-bottom: 16px;
+}
+
+.quals {
+  margin-top: 36px;
+  margin-bottom: 24px;
+}
+
+.qualsTitle {
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gray-500);
+  margin-bottom: 16px;
+  font-family: var(--font-body);
+}
+
+.qualsList {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1px solid var(--gray-100);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.qual {
+  display: grid;
+  grid-template-columns: 200px 1fr auto;
+  gap: 16px;
+  align-items: center;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--gray-100);
+  transition: background var(--transition);
+}
+
+.qual:last-child {
+  border-bottom: none;
+}
+
+.qual:hover {
+  background: var(--off-white);
+}
+
+.qualDegree {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--navy);
+}
+
+.qualInst {
+  font-size: 13px;
+  color: var(--gray-500);
+}
+
+.qualYear {
+  font-size: 12px;
+  color: var(--gray-300);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.languages {
+  font-size: 14px;
+  color: var(--gray-500);
+}
+
+.langLabel {
+  font-weight: 500;
+  color: var(--gray-700);
+}
+
+@media (max-width: 900px) {
+  .inner {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+  .visual {
+    position: static;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .photoCard {
+    flex: 1;
+    min-width: 200px;
+    max-width: 280px;
+  }
+  .memberships {
+    flex: 1;
+    min-width: 240px;
+  }
+  .qual {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+}
