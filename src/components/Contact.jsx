@@ -1,162 +1,218 @@
-import { useState } from 'react'
+// src/components/Contact.jsx
+import { useState, useEffect } from 'react'
 import { clinic } from '../data/dummy'
-import { useAuth } from '../context/AuthContext'
-import LoginModal from './LoginModal'
+import { useAuth } from '../context/AuthContext.jsx'
+import LoginModal from './LoginModal.jsx'
+import DatePicker from './booking/DatePicker.jsx'
+import { LOCATIONS, getNextAvailableDates } from '../utils/availability.js'
 import styles from './Contact.module.css'
+
+function formatDate(dateStr) {
+  if (!dateStr) return ''
+  return new Date(dateStr + 'T12:00:00').toLocaleDateString('en-IN', {
+    weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
+  })
+}
 
 export default function Contact() {
   const { user } = useAuth()
-  const [form, setForm] = useState({ name: '', email: '', phone: '', message: '' })
-  const [submitted, setSubmitted] = useState(false)
-  const [showModal, setShowModal] = useState(false)
+  const [showLogin, setShowLogin]   = useState(false)
+  const [locationId, setLocationId] = useState('')
+  const [submitted, setSubmitted]   = useState(false)
+  const [form, setForm] = useState({
+    name: '', email: '', phone: '', date: '', message: '',
+  })
 
-  const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value })
+  useEffect(() => {
+    if (user) {
+      setForm(prev => ({
+        ...prev,
+        name:  prev.name  || user.name  || '',
+        email: prev.email || user.email || '',
+      }))
+    }
+  }, [user])
+
+  const selectedLocation = LOCATIONS.find(l => l.id === locationId)
+
+  const handleChange        = e  => setForm({ ...form, [e.target.name]: e.target.value })
+  const handleDateChange    = d  => setForm(prev => ({ ...prev, date: d }))
+  const handleLocationSelect = id => { setLocationId(id); setForm(prev => ({ ...prev, date: '' })) }
 
   const handleSubmit = e => {
     e.preventDefault()
-    // TODO: wire up to FastAPI endpoint
-    console.log('Contact form submitted:', form)
+    if (!user) { setShowLogin(true); return }
+    console.log('Booking submitted:', { locationId, ...form })
     setSubmitted(true)
-    setForm({ name: '', email: '', phone: '', message: '' })
-    setTimeout(() => setSubmitted(false), 5000)
+    setLocationId('')
+    setForm({ name: '', email: '', phone: '', date: '', message: '' })
   }
 
   return (
     <section id="contact" className={styles.section}>
       <div className="container">
-        <div className={styles.inner}>
-          <div className={styles.info}>
-            <p className="section-label">Get in Touch</p>
-            <h2 className={styles.heading}>Book an Appointment</h2>
-            <p className={styles.sub}>
-              Fill out the form and our team will get back to you within a few hours to confirm your appointment.
-            </p>
 
-            <div className={styles.details}>
-              <div className={styles.detail}>
-                <div className={styles.detailIcon}>📍</div>
-                <div>
-                  <p className={styles.detailLabel}>Clinic Address</p>
-                  <p className={styles.detailValue}>{clinic.address}</p>
-                </div>
-              </div>
-              <div className={styles.detail}>
-                <div className={styles.detailIcon}>📞</div>
-                <div>
-                  <p className={styles.detailLabel}>Phone</p>
-                  <p className={styles.detailValue}>{clinic.phone}</p>
-                </div>
-              </div>
-              <div className={styles.detail}>
-                <div className={styles.detailIcon}>✉️</div>
-                <div>
-                  <p className={styles.detailLabel}>Email</p>
-                  <p className={styles.detailValue}>{clinic.email}</p>
-                </div>
-              </div>
-            </div>
+        <div className={styles.header}>
+          <p className="section-label">Get in Touch</p>
+          <h2 className={styles.heading}>Book an Appointment</h2>
+          <p className={styles.sub}>
+            Choose your preferred location and we'll confirm your appointment within a few hours.
+          </p>
+        </div>
 
-            <div className={styles.hours}>
-              <p className={styles.hoursTitle}>Clinic Hours</p>
-              {clinic.hours.map(h => (
-                <div key={h.day} className={styles.hour}>
-                  <span className={styles.hourDay}>{h.day}</span>
-                  <span className={styles.hourTime}>{h.time}</span>
-                </div>
-              ))}
-            </div>
-          </div>
+        <div className={styles.layout}>
 
-          <div className={styles.formCard}>
-            {!user ? (
-              <div className={styles.authGate}>
-                <div className={styles.authGateIcon}>🔒</div>
-                <h3 className={styles.authGateTitle}>Sign in to Book</h3>
-                <p className={styles.authGateSub}>
-                  Please sign in with your Google account to send a booking request. It only takes a moment.
-                </p>
-                <button className="btn-primary" onClick={() => setShowModal(true)}
-                  style={{ width: '100%', justifyContent: 'center' }}>
-                  Sign in with Google
-                </button>
-                <p className={styles.authGateNote}>
-                  Your data is encrypted and never shared with third parties.
-                </p>
-              </div>
-            ) : submitted ? (
-              <div className={styles.success}>
+          {/* ── booking form ── */}
+          <div className={styles.formWrap}>
+            {submitted ? (
+              <div className={styles.successCard}>
                 <div className={styles.successIcon}>✓</div>
-                <h3>Message Received</h3>
-                <p>Thank you. Our team will contact you within a few hours to confirm your appointment.</p>
+                <h3>Appointment Requested!</h3>
+                <p>
+                  {form.date ? `Requested for ${formatDate(form.date)} at ${selectedLocation?.name || 'your selected clinic'}.` : ''}
+                  {' '}Our team will confirm within a few hours.
+                </p>
+                <button className={styles.resetBtn} onClick={() => setSubmitted(false)}>
+                  Book another appointment
+                </button>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className={styles.form}>
-                <h3 className={styles.formTitle}>Send a Message</h3>
+              <form onSubmit={handleSubmit}>
 
-                <div className={styles.row}>
-                  <div className={styles.field}>
-                    <label className={styles.label}>Full Name *</label>
-                    <input
-                      type="text"
-                      name="name"
-                      value={form.name}
-                      onChange={handleChange}
-                      className={styles.input}
-                      placeholder="Priya Desai"
-                      required
-                    />
+                {/* Auth nudge */}
+                {!user && (
+                  <div className={styles.authNudge}>
+                    <span>🔒</span>
+                    <p>
+                      <button type="button" className={styles.nudgeLink}
+                        onClick={() => setShowLogin(true)}>
+                        Sign in with Google
+                      </button>
+                      {' '}to pre-fill your details and track this booking.
+                    </p>
                   </div>
-                  <div className={styles.field}>
-                    <label className={styles.label}>Phone Number</label>
-                    <input
-                      type="tel"
-                      name="phone"
-                      value={form.phone}
-                      onChange={handleChange}
-                      className={styles.input}
-                      placeholder="+91 98765 43210"
-                    />
+                )}
+
+                {/* ── STEP 1: Location picker ── */}
+                {!locationId ? (
+                  <div className={styles.stepSection}>
+                    <p className={styles.stepLabel}>
+                      <span className={styles.stepNum}>1</span>
+                      Choose a clinic location
+                    </p>
+                    <div className={styles.locationGrid}>
+                      {LOCATIONS.map(loc => {
+                        const next = getNextAvailableDates(loc.id, 1)[0]
+                        const nextLabel = next
+                          ? next.toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short' })
+                          : '—'
+                        return (
+                          <button key={loc.id} type="button"
+                            className={styles.locationCard}
+                            onClick={() => handleLocationSelect(loc.id)}>
+                            <div className={styles.locationName}>{loc.name}</div>
+                            <div className={styles.locationAddress}>{loc.address}</div>
+                            <div className={styles.locationTag}
+                              style={{ background: loc.color, color: loc.text }}>
+                              {loc.tag}
+                            </div>
+                            <div className={styles.locationNext}>
+                              Next visit <strong>{nextLabel}</strong>
+                            </div>
+                          </button>
+                        )
+                      })}
+                    </div>
                   </div>
-                </div>
+                ) : (
 
-                <div className={styles.field}>
-                  <label className={styles.label}>Email Address *</label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={form.email}
-                    onChange={handleChange}
-                    className={styles.input}
-                    placeholder="priya@example.com"
-                    required
-                  />
-                </div>
+                  /* ── STEP 2: Details form ── */
+                  <div className={styles.stepSection}>
 
-                <div className={styles.field}>
-                  <label className={styles.label}>Message / Reason for Visit *</label>
-                  <textarea
-                    name="message"
-                    value={form.message}
-                    onChange={handleChange}
-                    className={styles.textarea}
-                    rows={5}
-                    placeholder="Please describe your symptoms or what you'd like to discuss..."
-                    required
-                  />
-                </div>
+                    {/* Selected location banner */}
+                    <div className={styles.selectedLocation}
+                      style={{ borderColor: selectedLocation?.text, background: selectedLocation?.color }}>
+                      <div>
+                        {/* <p className={styles.selectedLocationLabel}>Selected clinic</p> */}
+                        <p className={styles.selectedLocationName}
+                          style={{ color: selectedLocation?.text }}>
+                          📍 {selectedLocation?.name}
+                        </p>
+                        {/* <p className={styles.selectedLocationTag}>{selectedLocation?.tag}</p> */}
+                      </div>
+                      <button type="button" className={styles.changeBtn}
+                        onClick={() => handleLocationSelect('')}>
+                        Change
+                      </button>
+                    </div>
 
-                <button type="submit" className={`btn-primary ${styles.submit}`}>
-                  Send Message →
-                </button>
+                    <p className={styles.stepLabel} style={{ marginTop: 24 }}>
+                      <span className={styles.stepNum}>2</span>
+                      Your details
+                    </p>
+
+                    <div className={styles.formRow}>
+                      <div className={styles.field}>
+                        <label className={styles.label}>Full Name *</label>
+                        <input type="text" name="name" value={form.name}
+                          onChange={handleChange} className={styles.input}
+                          placeholder="Priya Desai" required />
+                      </div>
+                      <div className={styles.field}>
+                        <label className={styles.label}>Phone *</label>
+                        <input type="tel" name="phone" value={form.phone}
+                          onChange={handleChange} className={styles.input}
+                          placeholder="+91 98765 43210" required/>
+                      </div>
+                    </div>
+
+                    <div className={styles.formRow}>
+                      <div className={styles.field}>
+                        <label className={styles.label}>Email Address</label>
+                        <input type="email" name="email" value={form.email}
+                          onChange={handleChange} className={styles.input}
+                          placeholder="priya@example.com"/>
+                      </div>
+                      <div className={styles.field}>
+                        <label className={styles.label}>
+                          Preferred Date *
+                          {selectedLocation && (
+                            <span className={styles.dateHint} style={{ color: selectedLocation.text }}>
+                              {' '}· {selectedLocation.tag}
+                            </span>
+                          )}
+                        </label>
+                        {/* Custom date picker — only valid dates are clickable */}
+                        <DatePicker
+                          locationId={locationId}
+                          value={form.date}
+                          onChange={handleDateChange}
+                          required
+                        />
+                      </div>
+                    </div>
+
+                    <div className={styles.field} style={{ marginBottom: 24 }}>
+                      <label className={styles.label}>Symptoms / Reason for Visit</label>
+                      <textarea name="message" value={form.message}
+                        onChange={handleChange} className={styles.textarea} rows={3}
+                        placeholder="Describe your symptoms or what you'd like to discuss..." />
+                    </div>
+
+                    <button type="submit" className={styles.submitBtn}>
+                      {user ? 'Request Appointment →' : 'Sign in & Request →'}
+                    </button>
+
+                  </div>
+                )}
+
               </form>
             )}
           </div>
         </div>
       </div>
 
-      {showModal && (
-        <LoginModal onClose={() => setShowModal(false)} />
-      )}
+      {/* <LoginModal isOpen={showLogin} onClose={() => setShowLogin(false)} /> */}
     </section>
   )
 }

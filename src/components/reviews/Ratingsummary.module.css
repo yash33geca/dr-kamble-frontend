@@ -1,0 +1,123 @@
+/* src/components/reviews/RatingSummary.module.css */
+
+.wrap {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  background: white;
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--gray-100);
+  padding: 32px 40px;
+  box-shadow: var(--shadow-md);
+  margin-bottom: 48px;
+}
+
+/* ── Score block ── */
+.score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  min-width: 140px;
+}
+
+.number {
+  font-family: var(--font-display);
+  font-size: 64px;
+  line-height: 1;
+  color: var(--navy);
+  letter-spacing: -2px;
+}
+
+.stars {
+  display: flex;
+  gap: 2px;
+}
+
+.count {
+  font-size: 13px;
+  color: var(--gray-500);
+  font-weight: 500;
+}
+
+.googleLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 100px;
+  border: 1.5px solid var(--gray-100);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--navy);
+  text-decoration: none;
+  transition: all 0.2s;
+  margin-top: 4px;
+}
+.googleLink:hover {
+  border-color: #4285F4;
+  color: #4285F4;
+}
+
+/* ── Divider ── */
+.divider {
+  width: 1px;
+  height: 120px;
+  background: var(--gray-100);
+  flex-shrink: 0;
+}
+
+/* ── Bars ── */
+.bars {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.barRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.barLabel {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gray-700);
+  width: 12px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.barTrack {
+  flex: 1;
+  height: 8px;
+  background: var(--gray-100);
+  border-radius: 100px;
+  overflow: hidden;
+}
+
+.barFill {
+  height: 100%;
+  background: #F59E0B;
+  border-radius: 100px;
+  transition: width 0.6s ease;
+}
+
+.barCount {
+  font-size: 12px;
+  color: var(--gray-500);
+  width: 28px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .wrap { flex-direction: column; gap: 24px; padding: 24px; }
+  .divider { width: 100%; height: 1px; }
+  .score { flex-direction: row; flex-wrap: wrap; justify-content: center; }
+  .number { font-size: 48px; }
+}
