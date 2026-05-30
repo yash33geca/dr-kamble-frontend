@@ -57,22 +57,94 @@
 // }
 
 
-// src/components/Reviews.jsx
-import { useState } from 'react'
-import { GOOGLE_REVIEWS, GOOGLE_SUMMARY } from '../data/reviews.js'
+import { useEffect, useMemo, useState } from 'react'
+import { onValue, ref } from 'firebase/database'
+import { GOOGLE_SUMMARY } from '../data/reviews.js'
+import { database } from '../firebase.js'
 import RatingSummary from './reviews/RatingSummary.jsx'
 import ReviewCard    from './reviews/ReviewCard.jsx'
 import ReviewForm    from './reviews/ReviewForm.jsx'
 import styles from './Reviews.module.css'
 
-const SHOW_INITIALLY = 6
+const REVIEWS_PER_PAGE = 6
+
+function getInitials(name = '') {
+  return name
+    .split(' ')
+    .filter(Boolean)
+    .map(part => part[0])
+    .join('')
+    .slice(0, 2)
+    .toUpperCase() || 'U'
+}
+
+function formatReviewDate(createdAt) {
+  if (!createdAt) return 'Recently'
+  return new Date(createdAt).toLocaleDateString('en-IN', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  })
+}
+
+function normalizeReview(id, review) {
+  const author = review.authorName || 'Patient'
+  const createdAt = typeof review.createdAt === 'number' ? review.createdAt : 0
+  return {
+    id,
+    source: review.source || 'patient',
+    author,
+    initials: review.initials || getInitials(author),
+    rating: Number(review.rating) || 0,
+    date: formatReviewDate(createdAt),
+    title: review.title || null,
+    body: review.body || '',
+    verified: review.verified !== false,
+    createdAt,
+  }
+}
 
 export default function Reviews() {
-  const [showAll,       setShowAll]       = useState(false)
   const [showForm,      setShowForm]      = useState(false)
   const [formSubmitted, setFormSubmitted] = useState(false)
+  const [reviews,       setReviews]       = useState([])
+  const [loading,       setLoading]       = useState(true)
+  const [loadError,     setLoadError]     = useState('')
+  const [page,          setPage]          = useState(1)
 
-  const displayed = showAll ? GOOGLE_REVIEWS : GOOGLE_REVIEWS.slice(0, SHOW_INITIALLY)
+  useEffect(() => {
+    const reviewsRef = ref(database, 'reviews')
+
+    const unsubscribe = onValue(
+      reviewsRef,
+      snapshot => {
+        const data = snapshot.val() || {}
+        const nextReviews = Object.entries(data)
+          .map(([id, review]) => normalizeReview(id, review))
+          .sort((a, b) => b.createdAt - a.createdAt)
+
+        setReviews(nextReviews)
+        setLoading(false)
+      },
+      error => {
+        console.error('Failed to load reviews:', error)
+        setLoadError('Could not load reviews right now.')
+        setLoading(false)
+      }
+    )
+
+    return unsubscribe
+  }, [])
+
+  const totalPages = Math.max(1, Math.ceil(reviews.length / REVIEWS_PER_PAGE))
+  const displayed = useMemo(() => {
+    const start = (page - 1) * REVIEWS_PER_PAGE
+    return reviews.slice(start, start + REVIEWS_PER_PAGE)
+  }, [page, reviews])
+
+  useEffect(() => {
+    setPage(current => Math.min(current, totalPages))
+  }, [totalPages])
 
   return (
     <section id="reviews" className={styles.section}>
@@ -96,28 +168,52 @@ export default function Reviews() {
         </div>
 
         {/* Aggregate rating summary */}
-        <RatingSummary />
+        <RatingSummary reviews={reviews} />
 
         {/* Reviews grid + Write a review side by side */}
         <div className={styles.layout}>
 
           {/* Left: review cards */}
           <div>
-            <div className={styles.grid}>
-              {displayed.map(review => (
-                <ReviewCard key={review.id} review={review} />
-              ))}
-            </div>
+            {loading && <p className={styles.stateText}>Loading reviews...</p>}
+            {loadError && <p className={styles.stateError}>{loadError}</p>}
 
-            {GOOGLE_REVIEWS.length > SHOW_INITIALLY && (
-              <button
-                className={styles.showMore}
-                onClick={() => setShowAll(s => !s)}
-              >
-                {showAll
-                  ? 'Show fewer reviews'
-                  : `Show all ${GOOGLE_REVIEWS.length} reviews`}
-              </button>
+            {!loading && !loadError && reviews.length === 0 && (
+              <p className={styles.stateText}>No patient reviews yet. Be the first to share your experience.</p>
+            )}
+
+            {!loading && !loadError && reviews.length > 0 && (
+              <>
+                <div className={styles.grid}>
+                  {displayed.map(review => (
+                    <ReviewCard key={review.id} review={review} />
+                  ))}
+                </div>
+
+                {totalPages > 1 && (
+                  <div className={styles.pagination}>
+                    <button
+                      type="button"
+                      className={styles.pageBtn}
+                      onClick={() => setPage(p => Math.max(1, p - 1))}
+                      disabled={page === 1}
+                    >
+                      Previous
+                    </button>
+                    <span className={styles.pageStatus}>
+                      Page {page} of {totalPages}
+                    </span>
+                    <button
+                      type="button"
+                      className={styles.pageBtn}
+                      onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+                      disabled={page === totalPages}
+                    >
+                      Next
+                    </button>
+                  </div>
+                )}
+              </>
             )}
           </div>
 

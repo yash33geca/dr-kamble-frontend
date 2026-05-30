@@ -67,7 +67,9 @@
 
 // src/components/reviews/ReviewForm.jsx
 import { useState } from 'react'
+import { push, ref, serverTimestamp } from 'firebase/database'
 import { useAuth } from '../../context/AuthContext.jsx'
+import { database } from '../../firebase.js'
 import styles from './ReviewForm.module.css'
 
 const STAR_LABELS = { 1: 'Poor', 2: 'Fair', 3: 'Good', 4: 'Very good', 5: 'Excellent' }
@@ -130,7 +132,7 @@ export default function ReviewForm({ onSubmitted }) {
 
   if (done) {
     return (
-      <div className={styles.successCard}>
+      <div className={styles.successWrap}>
         <div className={styles.successIcon}>✓</div>
         <h4>Review submitted!</h4>
         <p>Thank you. Your review will appear after a brief verification check.</p>
@@ -166,20 +168,37 @@ export default function ReviewForm({ onSubmitted }) {
     if (form.body.trim().length < 20) { setError('Please write at least 20 characters.'); return }
     setError('')
     setLoading(true)
-    await new Promise(r => setTimeout(r, 700))
-    setLoading(false)
-    setDone(true)
-    onSubmitted?.({
-      id:       `local-${Date.now()}`,
-      source:   'patient',
-      author:   user.name,
-      initials: user.name?.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase() || 'U',
-      rating:   form.rating,
-      date:     'Just now',
-      title:    form.title.trim() || null,
-      body:     form.body.trim(),
-      verified: true,
-    })
+
+    const authorName = user.displayName || user.email || 'Patient'
+    const initials = authorName
+      .split(' ')
+      .filter(Boolean)
+      .map(name => name[0])
+      .join('')
+      .slice(0, 2)
+      .toUpperCase() || 'U'
+
+    try {
+      await push(ref(database, 'reviews'), {
+        source: 'patient',
+        authorName,
+        initials,
+        rating: form.rating,
+        title: form.title.trim() || null,
+        body: form.body.trim(),
+        verified: true,
+        userId: user.uid,
+        userEmail: user.email || '',
+        createdAt: serverTimestamp(),
+      })
+      setDone(true)
+      onSubmitted?.()
+    } catch (err) {
+      console.error('Failed to save review:', err)
+      setError('Could not save your review right now. Please try again.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -187,14 +206,14 @@ export default function ReviewForm({ onSubmitted }) {
       <h3 className={styles.formTitle}>Write a review</h3>
 
       <div className={styles.userRow}>
-        <div className={styles.avatar}>
-          {user.photo
-            ? <img src={user.photo} alt={user.name} referrerPolicy="no-referrer" />
-            : user.name?.[0]
+        <div className={styles.userAvatar}>
+          {user.photoURL
+            ? <img src={user.photoURL} alt={user.displayName || 'Patient'} referrerPolicy="no-referrer" />
+            : (user.displayName || user.email || 'P')[0]
           }
         </div>
         <div>
-          <p className={styles.userName}>{user.name}</p>
+          <p className={styles.userName}>{user.displayName || user.email}</p>
           <p className={styles.userSub}>Posting as verified patient</p>
         </div>
       </div>
@@ -228,7 +247,7 @@ export default function ReviewForm({ onSubmitted }) {
       {error && <p className={styles.error}>{error}</p>}
 
       <button type="submit" className={styles.submitBtn} disabled={loading}>
-        {loading ? 'Submitting…' : 'Submit review'}
+        {loading ? 'Submitting...' : 'Submit review'}
       </button>
     </form>
   )

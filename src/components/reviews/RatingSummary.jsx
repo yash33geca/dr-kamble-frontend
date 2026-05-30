@@ -1,6 +1,6 @@
 // src/components/reviews/RatingSummary.jsx
 import styles from './RatingSummary.module.css'
-import { GOOGLE_SUMMARY, RATING_DISTRIBUTION } from '../../data/reviews.js'
+import { GOOGLE_SUMMARY } from '../../data/reviews.js'
 
 function StarIcon({ filled }) {
   return (
@@ -14,22 +14,29 @@ function StarIcon({ filled }) {
   )
 }
 
-export default function RatingSummary() {
-  const total = RATING_DISTRIBUTION.reduce((s, r) => s + r.count, 0)
+export default function RatingSummary({ reviews = [] }) {
+  const total = reviews.length
+  const average = total
+    ? reviews.reduce((sum, review) => sum + review.rating, 0) / total
+    : 0
+  const ratingDistribution = [5, 4, 3, 2, 1].map(stars => ({
+    stars,
+    count: reviews.filter(review => Math.round(review.rating) === stars).length,
+  }))
 
   return (
     <div className={styles.wrap}>
 
       {/* Left: big rating number */}
       <div className={styles.score}>
-        <div className={styles.number}>{GOOGLE_SUMMARY.rating}</div>
+        <div className={styles.number}>{average.toFixed(1)}</div>
         <div className={styles.stars}>
           {[1,2,3,4,5].map(i => (
-            <StarIcon key={i} filled={i <= Math.round(GOOGLE_SUMMARY.rating)} />
+            <StarIcon key={i} filled={i <= Math.round(average)} />
           ))}
         </div>
         <div className={styles.count}>
-          {GOOGLE_SUMMARY.totalRatings.toLocaleString('en-IN')} reviews
+          {total.toLocaleString('en-IN')} patient reviews
         </div>
         <a
           href={GOOGLE_SUMMARY.googleMapsUrl}
@@ -47,8 +54,8 @@ export default function RatingSummary() {
 
       {/* Right: breakdown bars */}
       <div className={styles.bars}>
-        {RATING_DISTRIBUTION.map(({ stars, count }) => {
-          const pct = Math.round((count / total) * 100)
+        {ratingDistribution.map(({ stars, count }) => {
+          const pct = total ? Math.round((count / total) * 100) : 0
           return (
             <div key={stars} className={styles.barRow}>
               <span className={styles.barLabel}>{stars}</span>
