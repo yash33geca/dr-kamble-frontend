@@ -1,6 +1,8 @@
 // src/components/Contact.jsx
 import { useState, useEffect } from 'react'
+import { push, ref, serverTimestamp } from 'firebase/database'
 import { clinic } from '../data/dummy'
+import { database } from '../firebase.js'
 import { useAuth } from '../context/AuthContext.jsx'
 import LoginModal from './LoginModal.jsx'
 import DatePicker from './booking/DatePicker.jsx'
@@ -19,6 +21,9 @@ export default function Contact() {
   const [showLogin, setShowLogin]   = useState(false)
   const [locationId, setLocationId] = useState('')
   const [submitted, setSubmitted]   = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState('')
+  const [lastBooking, setLastBooking] = useState(null)
   const [form, setForm] = useState({
     name: '', email: '', phone: '', date: '', message: '',
   })
@@ -27,7 +32,7 @@ export default function Contact() {
     if (user) {
       setForm(prev => ({
         ...prev,
-        name:  prev.name  || user.name  || '',
+        name:  prev.name  || user.displayName || '',
         email: prev.email || user.email || '',
       }))
     }
@@ -35,17 +40,65 @@ export default function Contact() {
 
   const selectedLocation = LOCATIONS.find(l => l.id === locationId)
 
-  const handleChange        = e  => setForm({ ...form, [e.target.name]: e.target.value })
-  const handleDateChange    = d  => setForm(prev => ({ ...prev, date: d }))
-  const handleLocationSelect = id => { setLocationId(id); setForm(prev => ({ ...prev, date: '' })) }
+  const handleChange = e => {
+    setSubmitError('')
+    setForm({ ...form, [e.target.name]: e.target.value })
+  }
+  const handleDateChange = d => {
+    setSubmitError('')
+    setForm(prev => ({ ...prev, date: d }))
+  }
+  const handleLocationSelect = id => {
+    setSubmitError('')
+    setLocationId(id)
+    setForm(prev => ({ ...prev, date: '' }))
+  }
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault()
     if (!user) { setShowLogin(true); return }
-    console.log('Booking submitted:', { locationId, ...form })
-    setSubmitted(true)
-    setLocationId('')
-    setForm({ name: '', email: '', phone: '', date: '', message: '' })
+
+    setSubmitting(true)
+    setSubmitError('')
+
+    const booking = {
+      patient: {
+        name: form.name.trim(),
+        email: form.email.trim(),
+        phone: form.phone.trim(),
+      },
+      preferredDate: form.date,
+      message: form.message.trim(),
+      location: selectedLocation
+        ? {
+            id: selectedLocation.id,
+            name: selectedLocation.name,
+            address: selectedLocation.address,
+            tag: selectedLocation.tag,
+          }
+        : { id: locationId },
+      status: 'requested',
+      userId: user.uid,
+      userEmail: user.email || '',
+      createdAt: serverTimestamp(),
+    }
+
+    try {
+      const bookingRef = await push(ref(database, 'appointments'), booking)
+      setLastBooking({
+        id: bookingRef.key,
+        date: form.date,
+        locationName: selectedLocation?.name || 'your selected clinic',
+      })
+      setSubmitted(true)
+      setLocationId('')
+      setForm({ name: '', email: '', phone: '', date: '', message: '' })
+    } catch (err) {
+      console.error('Failed to save appointment:', err)
+      setSubmitError('Could not save your appointment right now. Please try again.')
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   return (
@@ -69,7 +122,7 @@ export default function Contact() {
                 <div className={styles.successIcon}>✓</div>
                 <h3>Appointment Requested!</h3>
                 <p>
-                  {form.date ? `Requested for ${formatDate(form.date)} at ${selectedLocation?.name || 'your selected clinic'}.` : ''}
+                  {lastBooking?.date ? `Requested for ${formatDate(lastBooking.date)} at ${lastBooking.locationName}.` : ''}
                   {' '}Our team will confirm within a few hours.
                 </p>
                 <button className={styles.resetBtn} onClick={() => setSubmitted(false)}>
@@ -199,8 +252,12 @@ export default function Contact() {
                         placeholder="Describe your symptoms or what you'd like to discuss..." />
                     </div>
 
-                    <button type="submit" className={styles.submitBtn}>
-                      {user ? 'Request Appointment →' : 'Sign in & Request →'}
+                    {submitError && (
+                      <p className={styles.submitError}>{submitError}</p>
+                    )}
+
+                    <button type="submit" className={styles.submitBtn} disabled={submitting}>
+                      {submitting ? 'Saving...' : user ? 'Request Appointment →' : 'Sign in & Request →'}
                     </button>
 
                   </div>
@@ -212,7 +269,12 @@ export default function Contact() {
         </div>
       </div>
 
-      {/* <LoginModal isOpen={showLogin} onClose={() => setShowLogin(false)} /> */}
+      {showLogin && (
+        <LoginModal
+          onClose={() => setShowLogin(false)}
+          redirectMessage="Sign in with Google to save your appointment request."
+        />
+      )}
     </section>
   )
 }
