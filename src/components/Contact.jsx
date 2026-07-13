@@ -1,12 +1,12 @@
 // src/components/Contact.jsx
 import { useState, useEffect } from 'react'
 import { push, ref, serverTimestamp } from 'firebase/database'
-import { clinic } from '../data/dummy'
-import { database } from '../firebase.js'
 import { useAuth } from '../context/AuthContext.jsx'
+import { database } from '../firebase.js'
 import LoginModal from './LoginModal.jsx'
 import DatePicker from './booking/DatePicker.jsx'
 import { LOCATIONS, getNextAvailableDates } from '../utils/availability.js'
+import { saveAppointmentToGoogleSheet } from '../services/googleSheets.js'
 import styles from './Contact.module.css'
 
 function formatDate(dateStr) {
@@ -80,13 +80,24 @@ export default function Contact() {
       status: 'requested',
       userId: user.uid,
       userEmail: user.email || '',
-      createdAt: serverTimestamp(),
+      submittedAt: new Date().toISOString(),
     }
 
     try {
-      const bookingRef = await push(ref(database, 'appointments'), booking)
+      const result = await saveAppointmentToGoogleSheet(booking)
+
+      if (!result?.ok) {
+        await push(ref(database, 'appointments'), {
+          ...booking,
+          googleSheetError: result?.reason || 'Google Sheets submission failed',
+          createdAt: serverTimestamp(),
+        })
+
+        throw new Error(result.reason || 'Google Sheets submission failed')
+      }
+
       setLastBooking({
-        id: bookingRef.key,
+        id: result?.data?.id || 'google-sheet',
         date: form.date,
         locationName: selectedLocation?.name || 'your selected clinic',
       })
@@ -95,7 +106,7 @@ export default function Contact() {
       setForm({ name: '', email: '', phone: '', date: '', message: '' })
     } catch (err) {
       console.error('Failed to save appointment:', err)
-      setSubmitError('Could not save your appointment right now. Please try again.')
+      setSubmitError('Your appointment could not be saved to Google Sheets. Please try again.')
     } finally {
       setSubmitting(false)
     }
