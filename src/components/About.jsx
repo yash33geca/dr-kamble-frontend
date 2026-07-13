@@ -1,4 +1,5 @@
 import { doctor } from '../data/dummy'
+import doctorImage from '../assets/Dr.nishantImage.jpeg'
 import styles from './About.module.css'
 
 export default function About() {
@@ -8,9 +9,12 @@ export default function About() {
         <div className={styles.inner}>
           <div className={styles.visual}>
             <div className={styles.photoCard}>
-              <div className={styles.photoPlaceholder}>
-                <span>NK</span>
-              </div>
+              <img
+                src={doctorImage}
+                alt={doctor.name}
+                className={styles.photoPlaceholder}
+                loading="lazy"
+              />
               <div className={styles.photoTag}>
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                   <circle cx="7" cy="7" r="7" fill="#0D7A6E"/>

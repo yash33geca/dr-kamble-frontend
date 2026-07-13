@@ -8,7 +8,7 @@ const stats = [
   { value: `${doctor.experience}+`, label: 'Years Experience' },
   { value: `${(doctor.patients / 1000).toFixed(1)}k+`, label: 'Patients Treated' },
   { value: '3', label: 'International Fellowships' },
-  { value: '4', label: 'Hospitals Affiliated' },
+  { value: '5', label: 'Hospitals Affiliated' },
 ]
 
 export default function Hero() {
@@ -36,7 +36,7 @@ export default function Hero() {
         <div className={styles.content}>
           <div className={styles.badge}>
             <span className={styles.badgeDot} />
-            Accepting New Patients · Pune
+            Accepting New Patients · Nagpur
           </div>
 
           <h1 className={styles.heading}>
@@ -47,7 +47,7 @@ export default function Hero() {
 
           <p className={styles.sub}>
             Led by <strong>{doctor.name}</strong>, {doctor.title} — providing
-            evidence-based rheumatology care to patients across Pune and Maharashtra.
+            evidence-based rheumatology care to patients across Nagpur Maharashtra and India.
           </p>
 
           <div className={styles.actions}>
@@ -84,7 +84,7 @@ export default function Hero() {
             </div>
             <div className={styles.cardMeta}>
               <span>🕐 Mon–Sat</span>
-              <span>📍 Viman Nagar, Pune</span>
+              <span>📍 Ramdaspeth, Nagpur</span>
             </div>
           </div>
 

@@ -1,62 +1,3 @@
-// import { reviews } from '../data/dummy'
-// import styles from './Reviews.module.css'
-
-// function Stars({ count }) {
-//   return (
-//     <div className={styles.stars}>
-//       {Array.from({ length: 5 }).map((_, i) => (
-//         <span key={i} className={i < count ? styles.starFilled : styles.starEmpty}>★</span>
-//       ))}
-//     </div>
-//   )
-// }
-
-// export default function Reviews() {
-//   const avg = (reviews.reduce((a, r) => a + r.rating, 0) / reviews.length).toFixed(1)
-
-//   return (
-//     <section id="reviews" className={styles.section}>
-//       <div className="container">
-//         <div className={styles.header}>
-//           <div className={styles.headerLeft}>
-//             <p className="section-label">Patient Stories</p>
-//             <h2 className={styles.heading}>What Our Patients Say</h2>
-//           </div>
-//           <div className={styles.overallRating}>
-//             <span className={styles.bigRating}>{avg}</span>
-//             <div>
-//               <Stars count={5} />
-//               <p className={styles.ratingMeta}>Based on {reviews.length} verified reviews</p>
-//             </div>
-//           </div>
-//         </div>
-
-//         <div className={styles.grid}>
-//           {reviews.map((r, i) => (
-//             <div key={r.id} className={`${styles.card} ${i === 0 ? styles.featured : ''}`}>
-//               <div className={styles.cardTop}>
-//                 <div className={styles.avatar}>
-//                   {r.name.split(' ').map(n => n[0]).join('')}
-//                 </div>
-//                 <div>
-//                   <p className={styles.name}>{r.name}</p>
-//                   <p className={styles.condition}>{r.condition}</p>
-//                 </div>
-//                 <Stars count={r.rating} />
-//               </div>
-//               <p className={styles.text}>"{r.text}"</p>
-//               <p className={styles.date}>
-//                 {new Date(r.date).toLocaleDateString('en-IN', { year: 'numeric', month: 'long' })}
-//               </p>
-//             </div>
-//           ))}
-//         </div>
-//       </div>
-//     </section>
-//   )
-// }
-
-
 import { useEffect, useMemo, useState } from 'react'
 import { onValue, ref } from 'firebase/database'
 import { GOOGLE_SUMMARY } from '../data/reviews.js'
@@ -66,7 +7,8 @@ import ReviewCard    from './reviews/ReviewCard.jsx'
 import ReviewForm    from './reviews/ReviewForm.jsx'
 import styles from './Reviews.module.css'
 
-const REVIEWS_PER_PAGE = 6
+const REVIEWS_PER_PAGE = 4
+const GOOGLE_REVIEWS_ENDPOINT = import.meta.env.VITE_GOOGLE_REVIEWS_ENDPOINT || '/api/google-reviews'
 
 function getInitials(name = '') {
   return name
@@ -88,7 +30,7 @@ function formatReviewDate(createdAt) {
 }
 
 function normalizeReview(id, review) {
-  const author = review.authorName || 'Patient'
+  const author = review.authorName || review.author || 'Patient'
   const createdAt = typeof review.createdAt === 'number' ? review.createdAt : 0
   return {
     id,
@@ -96,7 +38,7 @@ function normalizeReview(id, review) {
     author,
     initials: review.initials || getInitials(author),
     rating: Number(review.rating) || 0,
-    date: formatReviewDate(createdAt),
+    date: review.date || formatReviewDate(createdAt),
     title: review.title || null,
     body: review.body || '',
     verified: review.verified !== false,
@@ -107,8 +49,10 @@ function normalizeReview(id, review) {
 export default function Reviews() {
   const [showForm,      setShowForm]      = useState(false)
   const [formSubmitted, setFormSubmitted] = useState(false)
-  const [reviews,       setReviews]       = useState([])
+  const [siteReviews,   setSiteReviews]   = useState([])
+  const [googleReviews, setGoogleReviews] = useState([])
   const [loading,       setLoading]       = useState(true)
+  const [loadingGoogle, setLoadingGoogle] = useState(true)
   const [loadError,     setLoadError]     = useState('')
   const [page,          setPage]          = useState(1)
 
@@ -123,7 +67,7 @@ export default function Reviews() {
           .map(([id, review]) => normalizeReview(id, review))
           .sort((a, b) => b.createdAt - a.createdAt)
 
-        setReviews(nextReviews)
+        setSiteReviews(nextReviews)
         setLoading(false)
       },
       error => {
@@ -135,6 +79,84 @@ export default function Reviews() {
 
     return unsubscribe
   }, [])
+
+  useEffect(() => {
+    const googleReviewsRef = ref(database, 'googleReviews')
+
+    const unsubscribe = onValue(
+      googleReviewsRef,
+      snapshot => {
+        const data = snapshot.val() || {}
+        const nextReviews = Object.entries(data)
+          .map(([id, review]) => normalizeReview(id, review))
+          .sort((a, b) => b.createdAt - a.createdAt)
+
+        setGoogleReviews(nextReviews)
+        setLoadingGoogle(false)
+      },
+      error => {
+        console.error('Failed to load Google reviews:', error)
+        setLoadingGoogle(false)
+      }
+    )
+
+    return unsubscribe
+  }, [])
+
+  useEffect(() => {
+    let ignore = false
+
+    async function fetchGoogleReviews() {
+      if (!GOOGLE_REVIEWS_ENDPOINT || GOOGLE_REVIEWS_ENDPOINT === '/api/google-reviews') {
+        if (!ignore) {
+          setLoadingGoogle(false)
+        }
+        return
+      }
+
+      try {
+        const response = await fetch(GOOGLE_REVIEWS_ENDPOINT)
+        const contentType = response.headers.get('content-type') || ''
+
+        if (!contentType.includes('application/json')) {
+          const body = await response.text()
+          throw new Error(
+            `Expected JSON from ${GOOGLE_REVIEWS_ENDPOINT}, received ${contentType || 'unknown content type'}: ${body.slice(0, 80)}`
+          )
+        }
+
+        if (!response.ok) {
+          throw new Error(`Google reviews request failed: ${response.status}`)
+        }
+
+        const data = await response.json()
+        if (!ignore && Array.isArray(data.reviews)) {
+          setGoogleReviews(
+            data.reviews
+              .map((review, index) => normalizeReview(review.id || `google-${index}`, review))
+              .sort((a, b) => b.createdAt - a.createdAt)
+          )
+        }
+      } catch (error) {
+        console.error('Failed to fetch Google reviews:', error)
+      } finally {
+        if (!ignore) {
+          setLoadingGoogle(false)
+        }
+      }
+    }
+
+    fetchGoogleReviews()
+
+    return () => {
+      ignore = true
+    }
+  }, [])
+
+  const reviews = useMemo(() => {
+    return [...siteReviews, ...googleReviews]
+      .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0))
+  }, [googleReviews, siteReviews])
 
   const totalPages = Math.max(1, Math.ceil(reviews.length / REVIEWS_PER_PAGE))
   const displayed = useMemo(() => {
@@ -175,14 +197,14 @@ export default function Reviews() {
 
           {/* Left: review cards */}
           <div>
-            {loading && <p className={styles.stateText}>Loading reviews...</p>}
+            {(loading || loadingGoogle) && <p className={styles.stateText}>Loading reviews...</p>}
             {loadError && <p className={styles.stateError}>{loadError}</p>}
 
-            {!loading && !loadError && reviews.length === 0 && (
+            {!loading && !loadingGoogle && !loadError && reviews.length === 0 && (
               <p className={styles.stateText}>No patient reviews yet. Be the first to share your experience.</p>
             )}
 
-            {!loading && !loadError && reviews.length > 0 && (
+            {!loading && !loadingGoogle && !loadError && reviews.length > 0 && (
               <>
                 <div className={styles.grid}>
                   {displayed.map(review => (
@@ -198,7 +220,7 @@ export default function Reviews() {
                       onClick={() => setPage(p => Math.max(1, p - 1))}
                       disabled={page === 1}
                     >
-                      Previous
+                      ← Previous
                     </button>
                     <span className={styles.pageStatus}>
                       Page {page} of {totalPages}
@@ -209,7 +231,7 @@ export default function Reviews() {
                       onClick={() => setPage(p => Math.min(totalPages, p + 1))}
                       disabled={page === totalPages}
                     >
-                      Next
+                      Next →
                     </button>
                   </div>
                 )}

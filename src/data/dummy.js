@@ -1,20 +1,29 @@
 // ─── Doctor ───────────────────────────────────────────────────────────────────
 export const doctor = {
   name: 'Dr. Nishant Kamble',
-  shortName: 'Dr. Kamble',
-  title: 'MD, DM (Rheumatology)',
-  specialty: 'Consultant Rheumatologist',
-  hospital: 'Pune Rheumatology & Arthritis Centre',
+  shortName: 'Dr. Nishant',
+  title: 'MBBS, MD(General Medicine), DM (Clinical Immunology & Rheumatology), SCE Rheumatology(RCP, UK), EULAR Certified',
+  specialty: 'Consultant Rheumatologist & Clinical Immunologist',
+  hospital: 'Rheumatology and Autoimmune Disease Clinic',
   experience: 14,
   patients: 8500,
-  bio: `Dr. Nishant Kamble is a leading Consultant Rheumatologist with over 14 years of experience diagnosing and treating complex autoimmune and musculoskeletal disorders. He completed his DM in Rheumatology from AIIMS New Delhi and has trained at the Royal College of Physicians, London.
+  bio: `Dr. Nishant Kamble is a highly qualified Rheumatologist and Clinical Immunologist dedicated to the diagnosis and management of autoimmune, inflammatory, and musculoskeletal diseases. He completed his MBBS from Government Medical College, Nagpur, followed by MD in General Medicine from Dr. S.N. Medical College, Jodhpur. He further pursued superspecialty training in Clinical Immunology and Rheumatology (DM) from the prestigious King George's Medical University (KGMU), Lucknow.
 
-His practice focuses on evidence-based, patient-centred care for conditions such as Rheumatoid Arthritis, Lupus, Ankylosing Spondylitis, and Gout. Dr. Kamble is committed to helping patients manage chronic conditions and improve their quality of life.`,
+To further strengthen his expertise, Dr. Kamble has successfully completed the Specialty Certificate Examination (SCE) in Rheumatology conducted by the Royal College of Physicians, United Kingdom, and is EULAR (European Alliance of Associations for Rheumatology) Certified.
+
+With extensive academic and clinical experience, Dr. Kamble has served as Senior Resident and Assistant Professor in the Department of Medicine at Government Medical College, Nagpur. He has also worked as Assistant Professor in the Department of Clinical Immunology and Rheumatology, contributing to patient care, teaching, and academic research.
+
+Dr. Kamble specializes in the management of Rheumatoid Arthritis, Ankylosing Spondylitis, Psoriatic Arthritis, Systemic Lupus Erythematosus (SLE), Sjögren's Syndrome, Vasculitis, Myositis, Systemic Sclerosis, Osteoporosis, Gout, and other complex autoimmune and connective tissue disorders. His clinical approach emphasizes accurate diagnosis, evidence-based treatment, patient education, and long-term disease control.
+
+Known for his compassionate care and attention to detail, Dr. Kamble believes in building lasting relationships with patients and helping them navigate chronic rheumatic diseases with confidence and optimism.
+
+Dr. Kamble currently serves as a Visiting Consultant Rheumatologist at KIMS-Kingsway Hospital, KRIMS Hospitals, Shankara Superspeciality Hospital, and Taywade Hospital, Nagpur, providing advanced rheumatology care across Central India.`,
   qualifications: [
-    { degree: 'MBBS', institution: 'BJ Medical College, Pune', year: '2005' },
-    { degree: 'MD (General Medicine)', institution: 'Seth GS Medical College, Mumbai', year: '2009' },
-    { degree: 'DM (Rheumatology)', institution: 'AIIMS, New Delhi', year: '2013' },
-    { degree: 'Fellowship (Clinical Immunology)', institution: 'Royal College of Physicians, London', year: '2015' },
+    { degree: 'MBBS', institution: 'Govt. Medical College and Hospital, Nagpur'},
+    { degree: 'MD (General Medicine)', institution: 'Dr. SNMC & MDM Hospital, Jodhpur'},
+    { degree: 'DM (Clinical Immunology and and Rheumatology)', institution: 'King George Medical University, Lucknow'},
+    { degree: 'SCE Rheumatology', institution: 'RCP , UK'},
+    // { degree: 'EULAR certified in Rheumatic Diseases, Pediatric Rheumatology and Musculoskeletal Ultrasound'},
   ],
   memberships: [
     'Indian Rheumatology Association (IRA)',
@@ -75,6 +84,14 @@ export const services = [
     icon: '🧬',
     description: 'Diagnosis and management of vasculitis, myositis, Sjögren\'s syndrome, and other rare autoimmune rheumatic diseases.',
     duration: 45,
+  },
+   {
+    id: 1,
+    slug: 'rheumatoid-arthritis',
+    title: 'Rheumatoid Arthritis',
+    icon: '🦴',
+    description: 'Comprehensive diagnosis and management of RA including disease-modifying therapies, biologic agents, and joint preservation strategies.',
+    duration: 30,
   },
 ]
 
@@ -280,10 +297,10 @@ export const faqs = [
 
 // ─── Clinic Info ──────────────────────────────────────────────────────────────
 export const clinic = {
-  name: 'Pune Rheumatology & Arthritis Centre',
-  address: '302, Medipoint Building, Nagar Road, Viman Nagar, Pune – 411014',
-  phone: '+91 98220 XXXXX',
-  email: 'appointments@drkamble.in',
+  name: 'Nagpur Rheumatology & Arthritis Centre',
+  address: '3rd floor, Shar hari Complex, Block number 31, Central Bazar Road, near RBL Bank, opposite to Somalwar School, Ramdaspeth, Nagpur, Maharashtra 440010',
+  phone: '+91 7756842639',
+  email: 'dr.nkamble7@gmail.com',
   hours: [
     { day: 'Monday – Friday', time: '9:00 AM – 1:00 PM, 4:00 PM – 7:00 PM' },
     { day: 'Saturday', time: '9:00 AM – 1:00 PM' },
