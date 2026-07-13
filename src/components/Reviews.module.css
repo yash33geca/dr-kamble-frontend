@@ -47,23 +47,24 @@
   align-items: start;
 }
 
-/* ── Review cards grid ── */
+/* ── Review cards grid (4 per page → 2x2) ── */
 .grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 16px;
-  margin-bottom: 24px;
+  margin-bottom: 28px;
 }
 
+/* ── Pagination ── */
 .pagination {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 14px;
+  gap: 16px;
 }
 
 .pageBtn {
-  padding: 10px 24px;
+  padding: 10px 22px;
   border-radius: 100px;
   border: 1.5px solid var(--gray-200);
   background: white;
@@ -73,20 +74,24 @@
   cursor: pointer;
   font-family: var(--font-body);
   transition: all 0.2s;
+  white-space: nowrap;
 }
 .pageBtn:hover:not(:disabled) {
   border-color: var(--teal);
   color: var(--teal);
 }
 .pageBtn:disabled {
-  opacity: 0.5;
+  opacity: 0.4;
   cursor: not-allowed;
 }
 .pageStatus {
   color: var(--gray-500);
   font-size: 13px;
   font-weight: 600;
+  min-width: 110px;
+  text-align: center;
 }
+
 .stateText,
 .stateError {
   background: white;
@@ -179,4 +184,7 @@
 @media (max-width: 640px) {
   .grid { grid-template-columns: 1fr; }
   .header { flex-direction: column; align-items: flex-start; }
+  .pagination { gap: 10px; }
+  .pageBtn { padding: 9px 16px; font-size: 13px; }
+  .pageStatus { min-width: 0; }
 }

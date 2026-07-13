@@ -175,7 +175,16 @@ export default function Contact() {
                             className={styles.locationCard}
                             onClick={() => handleLocationSelect(loc.id)}>
                             <div className={styles.locationName}>{loc.name}</div>
-                            <div className={styles.locationAddress}>{loc.address}</div>
+                            <div className={styles.locationAddress}>
+                              <span className={styles.locationIcon} aria-hidden="true">📍</span>
+                              {loc.address}
+                            </div>
+                            {loc.phone && (
+                              <div className={styles.locationPhone}>
+                                <span className={styles.locationIcon} aria-hidden="true">📞</span>
+                                {loc.phone}
+                              </div>
+                            )}
                             <div className={styles.locationTag}
                               style={{ background: loc.color, color: loc.text }}>
                               {loc.tag}

@@ -13,14 +13,19 @@
 //    { rating, title, body, userId }
 // ============================================================
 
+const GOOGLE_PLACE_ID = import.meta.env.VITE_GOOGLE_PLACE_ID || ''
+const GOOGLE_REVIEW_URL = GOOGLE_PLACE_ID
+  ? `https://search.google.com/local/writereview?placeid=${GOOGLE_PLACE_ID}`
+  : '#'
+
 // Google Business summary (aggregate)
 // Replace with: GET https://places.googleapis.com/v1/places/{PLACE_ID}
 // Fields: rating, userRatingCount
 export const GOOGLE_SUMMARY = {
-  rating:      4.9,
-  totalRatings: 312,
-  googleMapsUrl: 'https://search.google.com/local/writereview?placeid=ChIJF8D-yiPB1DsRLK6SL_Lf41A', // ← replace
-  placeId:     'ChIJF8D-yiPB1DsRLK6SL_Lf41A',                        // ← replace
+  rating: Number(import.meta.env.VITE_GOOGLE_FALLBACK_RATING) || 0,
+  totalRatings: Number(import.meta.env.VITE_GOOGLE_FALLBACK_TOTAL_RATINGS) || 0,
+  googleMapsUrl: import.meta.env.VITE_GOOGLE_REVIEW_URL || GOOGLE_REVIEW_URL,
+  placeId: GOOGLE_PLACE_ID,
 }
 
 // Google reviews (fetched via Places API → your FastAPI backend)
@@ -96,3 +101,4 @@ export const RATING_DISTRIBUTION = [
   { stars: 2, count: 3   },
   { stars: 1, count: 2   },
 ]
+
