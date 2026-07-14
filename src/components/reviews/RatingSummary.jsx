@@ -1,6 +1,7 @@
 // src/components/reviews/RatingSummary.jsx
 import styles from './RatingSummary.module.css'
 import { GOOGLE_SUMMARY } from '../../data/reviews.js'
+const GOOGLE_REVIEW_URL = 'https://share.google/BxjH5ARSDw4uaVXVG'
 
 function StarIcon({ filled }) {
   return (
@@ -48,6 +49,7 @@ export default function RatingSummary({ reviews = [] }) {
           View on Google
         </a>
       </div>
+   
 
       {/* Divider */}
       <div className={styles.divider} />
@@ -86,3 +88,5 @@ function GoogleIcon() {
     </svg>
   )
 }
+
+
