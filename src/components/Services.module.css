@@ -35,8 +35,10 @@
 }
 .slider::-webkit-scrollbar { display: none; }
 
-/* Each page holds exactly 6 cards (3 columns x 2 rows) and takes the
-   full width of the slider, so scrolling moves a whole page at a time. */
+/* Each page takes the full width of the slider so scrolling moves a
+   whole page at a time. On desktop/tablet a page holds 6 cards (3x2 /
+   2x3); on mobile (see media query below) a page holds just 2 cards,
+   matched by PAGE_SIZE in Services.jsx. */
 .page {
   flex: 0 0 100%;
   max-width: 100%;
@@ -65,11 +67,13 @@
 }
 
 /* ── Disease/service image box ──
-   Falls back to the emoji icon (centered, tinted background) when a
-   service has no `image` field yet, so existing data keeps working. */
+   Uses aspect-ratio instead of a fixed height so real photographs stay
+   properly proportioned at any card width (rather than the fixed
+   150px box that was sized for a centered emoji). Falls back to the
+   icon, tinted background, when a service has no `image` yet. */
 .imageBox {
   width: 100%;
-  height: 150px;
+  aspect-ratio: 4 / 3;
   border-radius: var(--radius-md);
   overflow: hidden;
   background: var(--teal-light);
@@ -155,14 +159,37 @@
   color: var(--teal);
 }
 
-/* ── Responsive: same 6-per-page, fewer columns as screen shrinks ──
-   Tablets show 2 columns x 3 rows, phones show 1 column x 6 rows —
-   still one full "page" of 6 per swipe/auto-slide. */
+/* ── Responsive ──
+   Tablet: still 6 per page, shown as 2 columns x 3 rows.
+   Mobile: only 2 per page (matches MOBILE_PAGE_SIZE in Services.jsx),
+   shown side-by-side as 2 columns x 1 row, so each auto-slide reveals
+   the next pair of cards rather than scrolling through 6 stacked rows. */
 @media (max-width: 1024px) {
   .page { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 640px) {
-  .page { grid-template-columns: 1fr; gap: 16px; }
-  .imageBox { height: 130px; }
+  .page {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .card {
+    padding: 12px;
+    gap: 10px;
+  }
+  .imageBox { aspect-ratio: 1 / 1; }
+  .title { font-size: 15px; margin-bottom: 6px; }
+  .desc {
+    font-size: 12.5px;
+    line-height: 1.5;
+    /* Clamp description so uneven card heights don't break the 2-up
+       row on small screens with only 2 cards per page. */
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .footer { padding-top: 10px; }
+  .duration { font-size: 11px; }
+  .bookLink { font-size: 12px; }
   .sliderBtn { width: 36px; height: 36px; font-size: 14px; }
 }
