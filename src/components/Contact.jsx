@@ -8,6 +8,9 @@ import DatePicker from './booking/DatePicker.jsx'
 import { LOCATIONS, getNextAvailableDates } from '../utils/availability.js'
 import { saveAppointmentToGoogleSheet } from '../services/googleSheets.js'
 import styles from './Contact.module.css'
+import { Link } from 'react-router-dom'
+import Navbar from './Navbar.jsx'
+import Footer from './Footer.jsx'
 
 function formatDate(dateStr) {
   if (!dateStr) return ''
@@ -115,9 +118,8 @@ export default function Contact() {
   return (
     <section id="contact" className={styles.section}>
       <div className="container">
-
+        <Navbar />
         <div className={styles.header}>
-          <p className="section-label">Get in Touch</p>
           <h2 className={styles.heading}>Book an Appointment</h2>
           <p className={styles.sub}>
             Choose your preferred location and we'll confirm your appointment within a few hours.
@@ -288,6 +290,7 @@ export default function Contact() {
           </div>
         </div>
       </div>
+      <Footer />
 
       {showLogin && (
         <LoginModal
