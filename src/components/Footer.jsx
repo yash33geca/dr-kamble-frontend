@@ -42,9 +42,6 @@ export default function Footer() {
 
         <div className={styles.bottom}>
           <p>© {new Date().getFullYear()} {doctor.name}. All rights reserved.</p>
-          <p className={styles.disclaimer}>
-            This website is for informational purposes only and does not constitute medical advice. Please consult your doctor for personalised medical guidance.
-          </p>
         </div>
       </div>
     </footer>

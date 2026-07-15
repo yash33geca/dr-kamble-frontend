@@ -1,16 +1,16 @@
 import { useState, useEffect, useRef } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import LoginModal from './LoginModal'
 import styles from './Navbar.module.css'
 
 const navLinks = [
-  { label: 'About', href: '#about' },
-  { label: 'Services', href: '#services' },
-  { label: 'Articles', href: '#articles' },
-  { label: 'Reviews', href: '#reviews' },
-  { label: 'FAQ', href: '#faq' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'About', to: '/#about' },
+  { label: 'Services', to: '/#services' },
+  { label: 'Articles', to: '/#articles' },
+  { label: 'Reviews', to: '/#reviews' },
+  { label: 'FAQ', to: '/#faq' },
+  { label: 'Contact', to: '/website/contact' },
 ]
 
 export default function Navbar() {
@@ -21,6 +21,7 @@ export default function Navbar() {
   const dropdownRef = useRef(null)
 
   const { user, signOut } = useAuth()
+  const navigate = useNavigate()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
@@ -45,7 +46,7 @@ export default function Navbar() {
     if (!user) {
       setShowModal(true)
     } else {
-      document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })
+      navigate('/contact')
     }
   }
 
@@ -67,10 +68,10 @@ export default function Navbar() {
 
           <nav className={`${styles.links} ${menuOpen ? styles.open : ''}`}>
             {navLinks.map(link => (
-              <a key={link.label} href={link.href} className={styles.link}
+              <Link key={link.label} to={link.to} className={styles.link}
                 onClick={() => setMenuOpen(false)}>
                 {link.label}
-              </a>
+              </Link>
             ))}
             <button className={`btn-primary ${styles.ctaBtn}`} onClick={handleBookClick}>
               Book Appointment
@@ -106,7 +107,7 @@ export default function Navbar() {
                     <div className={styles.dropdownDivider} />
                     <button className={styles.dropdownItem} onClick={() => {
                       setDropdownOpen(false)
-                      document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })
+                      navigate('/contact')
                     }}>
                       📅 Book Appointment
                     </button>

@@ -27,7 +27,7 @@ export default function FAQ() {
             <p className={styles.sub}>
               Can't find your answer here? Call us or use the contact form and we'll respond within one business day.
             </p>
-            <a href="#contact" className="btn-primary" style={{ marginTop: '24px', display: 'inline-flex' }}>
+            <a href="/contact" className="btn-primary" style={{ marginTop: '24px', display: 'inline-flex' }}>
               Ask a Question →
             </a>
           </div>

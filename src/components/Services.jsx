@@ -109,7 +109,7 @@ export default function Services() {
                     </div>
                     <div className={styles.footer}>
                       <span className={styles.duration}>⏱ {s.duration} min</span>
-                      <a href="#contact" className={styles.bookLink}>Book →</a>
+                      <a href="/contact" className={styles.bookLink}>Book →</a>
                     </div>
                   </div>
                 ))}

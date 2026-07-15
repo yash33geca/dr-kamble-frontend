@@ -19,7 +19,6 @@ export default function HomePage() {
         <Reviews />
         <Articles />
         <FAQ />
-        <Contact />
       </main>
       <Footer />
     </>

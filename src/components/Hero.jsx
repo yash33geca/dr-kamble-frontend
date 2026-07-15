@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { doctor } from '../data/dummy'
 import { useAuth } from '../context/AuthContext'
 import LoginModal from './LoginModal'
@@ -14,13 +15,14 @@ const stats = [
 export default function Hero() {
   const { user } = useAuth()
   const [showModal, setShowModal] = useState(false)
+  const navigate = useNavigate()
 
   const handleBookClick = (e) => {
     e.preventDefault()
     if (!user) {
       setShowModal(true)
     } else {
-      document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })
+      navigate('/contact')
     }
   }
 
@@ -87,14 +89,14 @@ export default function Hero() {
               <span>📍 Ramdaspeth, Nagpur</span>
             </div>
           </div>
-
-          <div className={styles.floatBadge}>
+                
+          {/* <div className={styles.floatBadge}>
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
               <circle cx="8" cy="8" r="8" fill="#0D7A6E" />
               <path d="M5 8l2 2 4-4" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
             APLAR Certified Specialist
-          </div>
+          </div> */}
         </div>
       </div>
 
