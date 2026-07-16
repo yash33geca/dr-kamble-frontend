@@ -408,11 +408,7 @@ export const faqs = [
     question: 'Does Dr. Kamble offer teleconsultation?',
     answer: 'Yes. Teleconsultations are available for follow-up visits, review of investigations, and second opinions. New patients are encouraged to visit in person for the initial assessment, as a physical examination is often essential for accurate diagnosis. Please call or book online to check availability.',
   },
-  {
-    id: 6,
-    question: 'Which insurance plans are accepted?',
-    answer: 'We accept most major health insurance plans including Star Health, HDFC Ergo, Bajaj Allianz, United Health, and government schemes including CGHS and ECHS. Please contact the clinic to verify coverage before your appointment.',
-  },
+  
 ]
 
 // ─── Clinic Info ──────────────────────────────────────────────────────────────

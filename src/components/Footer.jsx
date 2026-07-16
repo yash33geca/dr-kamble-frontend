@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { doctor, clinic } from '../data/dummy'
 import styles from './Footer.module.css'
+import logo from '../assets/logo.png'
 
 const conditions = [
   'Rheumatoid Arthritis',
@@ -36,7 +37,9 @@ export default function Footer() {
       <div className="container">
         <div className={styles.top}>
           <div className={styles.brand}>
-            <div className={styles.brandMark}>NK</div>
+            <div className={styles.brandMark}>
+              <img src={logo} alt="Dr. Nishant Kamble Rheumatology logo" />
+            </div>
             <div>
               <p className={styles.brandName}>{doctor.name}</p>
               <p className={styles.brandSub}>{doctor.specialty}</p>
