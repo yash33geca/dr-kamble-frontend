@@ -42,6 +42,7 @@ export default function App() {
           <Route path="/website/contact" element={<Contact />} />
           <Route path="/services" element={<AllServicesPage />} />
           <Route path="/*" element={<HomePage />} />
+          <Route path="/services" element={<AllServicesPage />} />
         </Routes>
       </Router>
     </AuthProvider>
