@@ -159,6 +159,14 @@
   color: var(--teal);
 }
 
+/* ── "View More" link ──
+   Hidden by default (desktop/tablet already show 6 cards per page);
+   revealed only on mobile, where a page holds just 2 cards, so people
+   can jump to the full list on its own page instead of only swiping. */
+.viewMoreLink {
+  display: none;
+}
+
 /* ── Responsive ──
    Tablet: still 6 per page, shown as 2 columns x 3 rows.
    Mobile: only 2 per page (matches MOBILE_PAGE_SIZE in Services.jsx),
@@ -168,6 +176,27 @@
   .page { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 640px) {
+  /* Arrows are redundant with swipe-to-scroll on touch devices, and
+     leave an odd empty gap above "View More" — hide them on mobile. */
+  .sliderControls {
+    display: none;
+  }
+  .viewMoreLink {
+    display: block;
+    width: fit-content;
+    margin: 24px auto 0;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--teal);
+    padding: 10px 20px;
+    border: 1.5px solid var(--teal);
+    border-radius: 999px;
+    transition: all 0.2s;
+  }
+  .viewMoreLink:active {
+    background: var(--teal);
+    color: white;
+  }
   .page {
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
