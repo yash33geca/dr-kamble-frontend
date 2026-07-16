@@ -216,3 +216,13 @@
     gap: 4px;
   }
 }
+
+@media (max-width: 900px) {
+  .section { padding: 56px 0; }
+}
+@media (max-width: 480px) {
+  .section { padding: 44px 0; }
+  .inner { gap: 32px; }
+  .titleRow { margin-bottom: 18px; }
+  .quals { margin-top: 24px; margin-bottom: 16px; }
+}
