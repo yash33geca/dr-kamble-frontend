@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import LoginModal from './LoginModal'
 import styles from './Navbar.module.css'
+import logo from '../assets/logo.png'
 
 const navLinks = [
   { label: 'About', to: '/#about' },
@@ -59,7 +60,9 @@ export default function Navbar() {
       <header className={`${styles.navbar} ${scrolled ? styles.scrolled : ''}`}>
         <div className={`container ${styles.inner}`}>
           <Link to="/" className={styles.brand}>
-            <span className={styles.brandMark}>NK</span>
+            <span className={styles.brandMark}>
+              <img src={logo} alt="Dr. Nishant Kamble Rheumatology logo" />
+            </span>
             <div className={styles.brandText}>
               <span className={styles.brandName}>Dr. Nishant Kamble</span>
               <span className={styles.brandSub}>Consultant Rheumatologist</span>
