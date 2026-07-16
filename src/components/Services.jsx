@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { services } from '../data/dummy'
 import styles from './Services.module.css'
 
@@ -137,6 +138,10 @@ export default function Services() {
               </button>
             </div>
           )}
+
+          <Link to="/services" className={styles.viewMoreLink}>
+            View More →
+          </Link>
         </div>
       </div>
     </section>

@@ -6,6 +6,7 @@ import ArticlePage from './pages/ArticlePage'
 import LoginPage from './pages/LoginPage'
 import './index.css'
 import Contact from './components/Contact'
+import AllServicesPage from './pages/AllServicesPage'
 
 function ScrollToTop() {
   const { pathname, hash } = useLocation()
@@ -40,6 +41,7 @@ export default function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/website/contact" element={<Contact />} />
           <Route path="/*" element={<HomePage />} />
+          <Route path="/services" element={<AllServicesPage />} />
         </Routes>
       </Router>
     </AuthProvider>
