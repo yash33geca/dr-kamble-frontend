@@ -59,7 +59,6 @@ export default function Contact() {
 
   const handleSubmit = async e => {
     e.preventDefault()
-    if (!user) { setShowLogin(true); return }
 
     setSubmitting(true)
     setSubmitError('')
@@ -81,8 +80,8 @@ export default function Contact() {
           }
         : { id: locationId },
       status: 'requested',
-      userId: user.uid,
-      userEmail: user.email || '',
+      userId: user?.uid || null,
+      userEmail: user?.email || '',
       submittedAt: new Date().toISOString(),
     }
 
@@ -154,7 +153,7 @@ export default function Contact() {
                         onClick={() => setShowLogin(true)}>
                         Sign in with Google
                       </button>
-                      {' '}to pre-fill your details and track this booking.
+                      {' '}to pre-fill your details. Booking is still available without signing in.
                     </p>
                   </div>
                 )}
@@ -279,7 +278,7 @@ export default function Contact() {
                     )}
 
                     <button type="submit" className={styles.submitBtn} disabled={submitting}>
-                      {submitting ? 'Saving...' : user ? 'Request Appointment →' : 'Sign in & Request →'}
+                      {submitting ? 'Saving...' : 'Request Appointment →'}
                     </button>
 
                   </div>

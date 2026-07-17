@@ -44,11 +44,7 @@ export default function Navbar() {
   const handleBookClick = (e) => {
     e.preventDefault()
     setMenuOpen(false)
-    if (!user) {
-      setShowModal(true)
-    } else {
-      navigate('/contact')
-    }
+    navigate('/contact')
   }
 
   const initials = user?.displayName
