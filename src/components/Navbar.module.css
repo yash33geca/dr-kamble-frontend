@@ -270,20 +270,28 @@
     display: flex;
   }
 
+  .brand,
+  .rightSlot {
+    position: relative;
+    z-index: 130;
+  }
+
   .links {
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    inset: 0;
+    height: 100vh;
+    height: 100dvh;
     background: white;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     gap: 8px;
+    padding: 96px 24px 40px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
     transform: translateX(100%);
     transition: transform 0.3s ease;
-    z-index: 99;
+    z-index: 120;
   }
 
   .links.open {
