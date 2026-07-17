@@ -19,9 +19,33 @@
   line-height: 1.7;
 }
 
-.grid {
+/* ── Sliding carousel ──
+   Native horizontal scroll + snap so it works by drag/swipe on touch
+   devices, plus auto-play (see Services.jsx) and arrow buttons. */
+.sliderWrap {
+  position: relative;
+}
+
+.slider {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+}
+.slider::-webkit-scrollbar { display: none; }
+
+/* Each page takes the full width of the slider so scrolling moves a
+   whole page at a time. On desktop/tablet a page holds 6 cards (3x2 /
+   2x3); on mobile (see media query below) a page holds just 2 cards,
+   matched by PAGE_SIZE in Services.jsx. */
+.page {
+  flex: 0 0 100%;
+  max-width: 100%;
+  scroll-snap-align: start;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 1fr;
   gap: 24px;
 }
 
@@ -29,7 +53,7 @@
   background: white;
   border-radius: var(--radius-lg);
   border: 1px solid var(--gray-100);
-  padding: 28px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -42,15 +66,29 @@
   border-color: var(--gray-300);
 }
 
-.iconBox {
-  width: 48px;
-  height: 48px;
-  background: var(--teal-light);
+/* ── Disease/service image box ──
+   Uses aspect-ratio instead of a fixed height so real photographs stay
+   properly proportioned at any card width (rather than the fixed
+   150px box that was sized for a centered emoji). Falls back to the
+   icon, tinted background, when a service has no `image` yet. */
+.imageBox {
+  width: 100%;
+  aspect-ratio: 4 / 3;
   border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--teal-light);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 22px;
+}
+.imageBox img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.iconFallback {
+  font-size: 36px;
 }
 
 .cardBody {
@@ -93,4 +131,99 @@
 
 .bookLink:hover {
   color: var(--navy);
+}
+
+/* ── Slider controls ── */
+.sliderControls {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 20px;
+}
+.sliderBtn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1.5px solid var(--gray-200);
+  background: white;
+  color: var(--navy);
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+.sliderBtn:hover {
+  border-color: var(--teal);
+  color: var(--teal);
+}
+
+/* ── "View More" link ──
+   Hidden by default (desktop/tablet already show 6 cards per page);
+   revealed only on mobile, where a page holds just 2 cards, so people
+   can jump to the full list on its own page instead of only swiping. */
+.viewMoreLink {
+  display: none;
+}
+
+/* ── Responsive ──
+   Tablet: still 6 per page, shown as 2 columns x 3 rows.
+   Mobile: only 2 per page (matches MOBILE_PAGE_SIZE in Services.jsx),
+   shown side-by-side as 2 columns x 1 row, so each auto-slide reveals
+   the next pair of cards rather than scrolling through 6 stacked rows. */
+@media (max-width: 1024px) {
+  .page { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
+  /* Arrows are redundant with swipe-to-scroll on touch devices, and
+     leave an odd empty gap above "View More" — hide them on mobile. */
+  .sliderControls {
+    display: none;
+  }
+  .viewMoreLink {
+    display: block;
+    width: fit-content;
+    margin: 24px auto 0;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--teal);
+    padding: 10px 20px;
+    border: 1.5px solid var(--teal);
+    border-radius: 999px;
+    transition: all 0.2s;
+  }
+  .viewMoreLink:active {
+    background: var(--teal);
+    color: white;
+  }
+  .page {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .card {
+    padding: 12px;
+    gap: 10px;
+  }
+  .imageBox { aspect-ratio: 1 / 1; }
+  .title { font-size: 15px; margin-bottom: 6px; }
+  .desc {
+    font-size: 12.5px;
+    line-height: 1.5;
+    /* Clamp description so uneven card heights don't break the 2-up
+       row on small screens with only 2 cards per page. */
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .footer { padding-top: 10px; }
+  .duration { font-size: 11px; }
+  .bookLink { font-size: 12px; }
+  .sliderBtn { width: 36px; height: 36px; font-size: 14px; }
+}
+
+@media (max-width: 900px) {
+  .section { padding: 56px 0; }
+  .header { margin-bottom: 32px; }
 }

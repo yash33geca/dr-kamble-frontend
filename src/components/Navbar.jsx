@@ -1,16 +1,17 @@
 import { useState, useEffect, useRef } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import LoginModal from './LoginModal'
 import styles from './Navbar.module.css'
+import logo from '../assets/logo.png'
 
 const navLinks = [
-  { label: 'About', href: '#about' },
-  { label: 'Services', href: '#services' },
-  { label: 'Articles', href: '#articles' },
-  { label: 'Reviews', href: '#reviews' },
-  { label: 'FAQ', href: '#faq' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'About', to: '/#about' },
+  { label: 'Services', to: '/#services' },
+  { label: 'Articles', to: '/#articles' },
+  { label: 'Reviews', to: '/#reviews' },
+  { label: 'FAQ', to: '/#faq' },
+  { label: 'Contact', to: '/website/contact' },
 ]
 
 export default function Navbar() {
@@ -21,6 +22,7 @@ export default function Navbar() {
   const dropdownRef = useRef(null)
 
   const { user, signOut } = useAuth()
+  const navigate = useNavigate()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
@@ -45,7 +47,7 @@ export default function Navbar() {
     if (!user) {
       setShowModal(true)
     } else {
-      document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })
+      navigate('/contact')
     }
   }
 
@@ -58,7 +60,9 @@ export default function Navbar() {
       <header className={`${styles.navbar} ${scrolled ? styles.scrolled : ''}`}>
         <div className={`container ${styles.inner}`}>
           <Link to="/" className={styles.brand}>
-            <span className={styles.brandMark}>NK</span>
+            <span className={styles.brandMark}>
+              <img src={logo} alt="Dr. Nishant Kamble Rheumatology logo" />
+            </span>
             <div className={styles.brandText}>
               <span className={styles.brandName}>Dr. Nishant Kamble</span>
               <span className={styles.brandSub}>Consultant Rheumatologist</span>
@@ -67,10 +71,10 @@ export default function Navbar() {
 
           <nav className={`${styles.links} ${menuOpen ? styles.open : ''}`}>
             {navLinks.map(link => (
-              <a key={link.label} href={link.href} className={styles.link}
+              <Link key={link.label} to={link.to} className={styles.link}
                 onClick={() => setMenuOpen(false)}>
                 {link.label}
-              </a>
+              </Link>
             ))}
             <button className={`btn-primary ${styles.ctaBtn}`} onClick={handleBookClick}>
               Book Appointment
@@ -106,7 +110,7 @@ export default function Navbar() {
                     <div className={styles.dropdownDivider} />
                     <button className={styles.dropdownItem} onClick={() => {
                       setDropdownOpen(false)
-                      document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })
+                      navigate('/contact')
                     }}>
                       📅 Book Appointment
                     </button>

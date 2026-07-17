@@ -29,7 +29,6 @@ export default function ArticlePage() {
       <article className={styles.article}>
         <div className={styles.hero}>
           <div className="container">
-            <Link to="/#articles" className={styles.back}>← Back to Articles</Link>
             <span className={styles.cat}>{article.category}</span>
             <h1 className={styles.title}>{article.title}</h1>
             <div className={styles.meta}>
@@ -64,7 +63,7 @@ export default function ArticlePage() {
           <div className={styles.cta}>
             <h3>Have questions about this condition?</h3>
             <p>Dr. Kamble's clinic is accepting new patients. Book a consultation to discuss your concerns.</p>
-            <Link to="/#contact" className="btn-primary">Book an Appointment →</Link>
+            <Link to="/contact" className="btn-primary">Book an Appointment →</Link>
           </div>
         </div>
       </article>

@@ -1,0 +1,101 @@
+/* src/components/booking/LocationPicker.module.css */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.card {
+  position: relative;
+  text-align: left;
+  background: var(--cream);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 16px 14px;
+  cursor: pointer;
+  transition: var(--transition);
+  font-family: var(--font-body);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.card:hover {
+  border-color: var(--emerald-mid);
+  background: var(--emerald-light);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+
+.selected {
+  border-color: var(--emerald) !important;
+  background: var(--emerald-light) !important;
+  box-shadow: 0 0 0 3px rgba(13, 110, 79, 0.15);
+}
+
+/* Active indicator dot */
+.dot {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.selected .dot { opacity: 1; }
+
+.name {
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--ink);
+}
+
+.address {
+  font-size: 12px;
+  color: var(--ink-light);
+  line-height: 1.4;
+}
+
+.tag {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 100px;
+  font-size: 11px;
+  font-weight: 600;
+  width: fit-content;
+  margin-top: 2px;
+}
+
+.next {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+}
+
+.nextLabel {
+  font-size: 11px;
+  color: var(--ink-light);
+}
+
+.nextDate {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--emerald);
+}
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .card {
+    width: 100%;
+  }
+}

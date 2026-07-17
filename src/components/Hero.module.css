@@ -257,3 +257,12 @@
     flex-direction: column;
   }
 }
+
+@media (max-width: 480px) {
+  .hero {
+    padding: 100px 0 56px;
+    min-height: auto;
+  }
+  .actions { margin-bottom: 32px; }
+  .stats { padding-top: 24px; }
+}

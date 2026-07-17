@@ -1,0 +1,155 @@
+/* src/components/booking/DatePicker.module.css */
+
+.wrap {
+  position: relative;
+  width: 100%;
+}
+
+/* ── Trigger button ── */
+.trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 14px;
+  border: 1.5px solid var(--gray-100);
+  border-radius: 10px;
+  background: var(--off-white);
+  font-family: var(--font-body);
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+}
+.triggerOpen,
+.trigger:hover   { border-color: var(--teal); background: white; }
+.triggerFilled   { border-color: var(--gray-200); }
+
+.triggerIcon        { font-size: 15px; flex-shrink: 0; }
+.triggerPlaceholder { color: var(--gray-300); flex: 1; }
+.triggerValue       { color: var(--gray-900); flex: 1; font-weight: 500; }
+.triggerChevron     { font-size: 10px; color: var(--gray-500); flex-shrink: 0; }
+
+/* ── Dropdown ── */
+.dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1.5px solid var(--gray-100);
+  border-radius: 14px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  z-index: 200;
+  overflow: hidden;
+  min-width: 280px;
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  background: var(--teal);
+  color: white;
+}
+.monthLabel {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 600;
+}
+.navBtn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255,255,255,0.3);
+  background: transparent;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+  line-height: 1;
+  font-family: var(--font-body);
+}
+.navBtn:hover:not(:disabled) { background: rgba(255,255,255,0.2); }
+.navBtn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+/* Weekday headers */
+.weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  background: var(--navy);
+  padding: 5px 8px;
+}
+.weekday {
+  text-align: center;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: rgba(255,255,255,0.65);
+}
+
+/* Day grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+  padding: 8px;
+  background: var(--off-white);
+}
+
+.day {
+  aspect-ratio: 1;
+  border-radius: 8px;
+  border: none;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: var(--font-body);
+  cursor: pointer;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Available day */
+.dayAvail {
+  background: var(--teal-light);
+  color: var(--teal);
+}
+.dayAvail:hover {
+  background: var(--teal);
+  color: white;
+  transform: scale(1.1);
+}
+
+/* Disabled / wrong location */
+.dayDisabled {
+  background: transparent;
+  color: #d1cdc7;
+  cursor: not-allowed;
+}
+
+/* Today */
+.dayToday { outline: 2px solid var(--teal); outline-offset: -2px; }
+
+/* Selected */
+.daySelected {
+  background: var(--teal)  !important;
+  color: white !important;
+  box-shadow: 0 2px 8px rgba(13,122,110,0.35);
+}
+
+/* Footer */
+.footer {
+  padding: 8px 12px;
+  font-size: 11px;
+  color: var(--gray-500);
+  text-align: center;
+  border-top: 1px solid var(--gray-100);
+  background: white;
+}

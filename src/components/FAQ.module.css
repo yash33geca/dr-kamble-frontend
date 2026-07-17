@@ -93,3 +93,14 @@
     position: static;
   }
 }
+
+
+@media (max-width: 900px) {
+  .section { padding: 56px 0; }
+  .inner { gap: 32px; }
+}
+@media (max-width: 480px) {
+  .section { padding: 44px 0; }
+  .question { padding: 16px 18px; }
+  .answer { padding: 0 18px 16px; }
+}

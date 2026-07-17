@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { doctor } from '../data/dummy'
 import { useAuth } from '../context/AuthContext'
 import LoginModal from './LoginModal'
@@ -8,19 +9,20 @@ const stats = [
   { value: `${doctor.experience}+`, label: 'Years Experience' },
   { value: `${(doctor.patients / 1000).toFixed(1)}k+`, label: 'Patients Treated' },
   { value: '3', label: 'International Fellowships' },
-  { value: '4', label: 'Hospitals Affiliated' },
+  { value: '5', label: 'Hospitals Affiliated' },
 ]
 
 export default function Hero() {
   const { user } = useAuth()
   const [showModal, setShowModal] = useState(false)
+  const navigate = useNavigate()
 
   const handleBookClick = (e) => {
     e.preventDefault()
     if (!user) {
       setShowModal(true)
     } else {
-      document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })
+      navigate('/contact')
     }
   }
 
@@ -36,7 +38,7 @@ export default function Hero() {
         <div className={styles.content}>
           <div className={styles.badge}>
             <span className={styles.badgeDot} />
-            Accepting New Patients · Pune
+            Accepting New Patients · Nagpur
           </div>
 
           <h1 className={styles.heading}>
@@ -47,7 +49,7 @@ export default function Hero() {
 
           <p className={styles.sub}>
             Led by <strong>{doctor.name}</strong>, {doctor.title} — providing
-            evidence-based rheumatology care to patients across Pune and Maharashtra.
+            evidence-based rheumatology care to patients across Nagpur Maharashtra and India.
           </p>
 
           <div className={styles.actions}>
@@ -84,17 +86,17 @@ export default function Hero() {
             </div>
             <div className={styles.cardMeta}>
               <span>🕐 Mon–Sat</span>
-              <span>📍 Viman Nagar, Pune</span>
+              <span>📍 Ramdaspeth, Nagpur</span>
             </div>
           </div>
-
-          <div className={styles.floatBadge}>
+                
+          {/* <div className={styles.floatBadge}>
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
               <circle cx="8" cy="8" r="8" fill="#0D7A6E" />
               <path d="M5 8l2 2 4-4" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
             APLAR Certified Specialist
-          </div>
+          </div> */}
         </div>
       </div>
 
