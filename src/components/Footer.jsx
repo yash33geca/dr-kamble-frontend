@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { doctor, clinic } from '../data/dummy'
 import styles from './Footer.module.css'
 import logo from '../assets/logo.png'
@@ -32,6 +32,9 @@ const MAP_URL = 'https://maps.app.goo.gl/w57dp4Nz4g5Mdpsz7'
 const MAP_EMBED_URL = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3721.4703219916832!2d79.07286904144954!3d21.13367329312056!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bd4c123cafec017%3A0x50e3dff22f92ae2c!2sDr%20Nishant%20Kamble%20-%20Rheumatology%20and%20Autoimmune%20Disease%20Clinic!5e0!3m2!1sen!2sin!4v1784144879456!5m2!1sen!2sin'
 
 export default function Footer() {
+  const { pathname } = useLocation()
+  const isHome = pathname === '/'
+
   return (
     <footer className={styles.footer}>
       <div className="container">
@@ -54,9 +57,19 @@ export default function Footer() {
           <div>
             <p className={styles.colTitle}>Navigation</p>
             <div className={styles.navRow}>
-              {['About', 'Services', 'Articles', 'Reviews', 'FAQ', 'Contact'].map(l => (
-                <a key={l} href={`#${l.toLowerCase()}`} className={styles.link}>{l}</a>
-              ))}
+              {['About', 'Services', 'Articles', 'Reviews', 'FAQ', 'Contact'].map(l => {
+                if (l === 'Services') {
+                  return (
+                    <Link key={l} to="/services" className={styles.link}>{l}</Link>
+                  )
+                }
+                const hash = `#${l.toLowerCase()}`
+                return isHome ? (
+                  <a key={l} href={hash} className={styles.link}>{l}</a>
+                ) : (
+                  <Link key={l} to={`/${hash}`} className={styles.link}>{l}</Link>
+                )
+              })}
             </div>
           </div>
 
@@ -68,6 +81,10 @@ export default function Footer() {
             <a href={MAP_URL} target="_blank" rel="noopener noreferrer" className={styles.addrLink}>
               View on Google Maps
             </a>
+          </div>
+
+          <div className={styles.mapCol}>
+            <p className={styles.colTitle}>Location</p>
             <iframe
               src={MAP_EMBED_URL}
               className={styles.mapEmbed}
