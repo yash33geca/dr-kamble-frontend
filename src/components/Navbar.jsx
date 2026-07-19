@@ -30,6 +30,46 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
+  useEffect(() => {
+    if (!menuOpen) return
+
+    const scrollY = window.scrollY
+    const { overflow, position, top, left, right, width } = document.body.style
+    const { scrollBehavior } = document.documentElement.style
+
+    document.body.style.overflow = 'hidden'
+    document.body.style.position = 'fixed'
+    document.body.style.top = `-${scrollY}px`
+    document.body.style.left = '0'
+    document.body.style.right = '0'
+    document.body.style.width = '100%'
+
+    return () => {
+      document.documentElement.style.scrollBehavior = 'auto'
+      document.body.style.overflow = overflow
+      document.body.style.position = position
+      document.body.style.top = top
+      document.body.style.left = left
+      document.body.style.right = right
+      document.body.style.width = width
+      window.scrollTo({ top: scrollY, left: 0, behavior: 'auto' })
+      window.requestAnimationFrame(() => {
+        document.documentElement.style.scrollBehavior = scrollBehavior
+      })
+    }
+  }, [menuOpen])
+
+  useEffect(() => {
+    const onResize = () => {
+      if (window.innerWidth > 768) {
+        setMenuOpen(false)
+      }
+    }
+
+    window.addEventListener('resize', onResize)
+    return () => window.removeEventListener('resize', onResize)
+  }, [])
+
   // Close dropdown on outside click
   useEffect(() => {
     const handler = (e) => {
@@ -44,11 +84,7 @@ export default function Navbar() {
   const handleBookClick = (e) => {
     e.preventDefault()
     setMenuOpen(false)
-    if (!user) {
-      setShowModal(true)
-    } else {
-      navigate('/contact')
-    }
+    navigate('/contact')
   }
 
   const initials = user?.displayName
@@ -69,7 +105,7 @@ export default function Navbar() {
             </div>
           </Link>
 
-          <nav className={`${styles.links} ${menuOpen ? styles.open : ''}`}>
+          <nav id="primary-navigation" className={`${styles.links} ${menuOpen ? styles.open : ''}`}>
             {navLinks.map(link => (
               <Link key={link.label} to={link.to} className={styles.link}
                 onClick={() => setMenuOpen(false)}>
@@ -129,7 +165,9 @@ export default function Navbar() {
             )}
 
             <button className={styles.hamburger} onClick={() => setMenuOpen(!menuOpen)}
-              aria-label="Toggle menu">
+              aria-label="Toggle menu"
+              aria-controls="primary-navigation"
+              aria-expanded={menuOpen}>
               <span className={`${styles.bar} ${menuOpen ? styles.barOpen1 : ''}`} />
               <span className={`${styles.bar} ${menuOpen ? styles.barOpen2 : ''}`} />
               <span className={`${styles.bar} ${menuOpen ? styles.barOpen3 : ''}`} />
