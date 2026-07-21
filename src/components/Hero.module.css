@@ -339,5 +339,21 @@
     min-height: auto;
   }
   .actions { margin-bottom: 32px; }
-  .stats { padding-top: 24px; }
+  .stats { padding-top: 24px; gap: 24px; }
+  .actions { flex-direction: column; }
+
+  .bgCircle1 {
+    width: 280px;
+    height: 280px;
+    top: -100px;
+    right: -100px;
+    opacity: 0.45;
+  }
+  .bgCircle2 {
+    width: 180px;
+    height: 180px;
+    bottom: -40px;
+    left: -60px;
+    opacity: 0.35;
+  }
 }
