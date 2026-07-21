@@ -1,12 +1,13 @@
 import { useState } from 'react'
-// import { useNavigate } from 'react-router-dom'
 import { doctor } from '../data/dummy'
 import { useAuth } from '../context/AuthContext'
 import LoginModal from './LoginModal'
 import styles from './Hero.module.css'
 import { Link, useNavigate } from 'react-router-dom'
+import drNishantImage from '../assets/Dr.nishantImage.jpeg'
 
-// Importing images for services
+
+
 import rheumatoidArthritisImg from '../assets/Services_Images/Rheumatoid arthritis .png'
 import lupusImg from '../assets/Services_Images/Lupus .png'
 import vasculitisImg from '../assets/Services_Images/Vasculitis Arthritis.png'
@@ -30,13 +31,14 @@ import sarcoidosis from '../assets/Services_Images/Sarcoidosis.png'
 import gout from '../assets/Services_Images/Gout.png'
 import ankylosingspondylitis from '../assets/Services_Images/Ankylosing spondylitis.png'
 
-
 const stats = [
   { value: `${doctor.experience}+`, label: 'Years Experience' },
   { value: `${(doctor.patients / 1000).toFixed(1)}k+`, label: 'Patients Treated' },
   { value: '1', label: 'International Fellowships' },
   { value: '6', label: 'Hospitals Affiliated' },
 ]
+
+const specialtyTags = ['Rheumatoid Arthritis', 'Lupus', 'Gout', 'Ankylosing Spondylitis', 'Osteoporosis']
 
 export default function Hero() {
   const { user } = useAuth()
@@ -95,34 +97,18 @@ export default function Hero() {
           </div>
         </div>
 
+        {/* Desktop-only visual: photo frame + credential/specialty badges */}
         <div className={styles.visual}>
-          <div className={styles.card}>
-            <div className={styles.avatar}>
-              <span>NK</span>
-            </div>
-            <div className={styles.cardInfo}>
-              <h3>{doctor.name}</h3>
-              <p>{doctor.title}</p>
-              <p className={styles.cardSpec}>{doctor.specialty}</p>
-            </div>
-            <div className={styles.cardTags}>
-              {['Rheumatoid Arthritis', 'Lupus', 'Gout', 'Ankylosing Spondylitis', 'Osteoporosis'].map(t => (
-                <span key={t} className={styles.tag}>{t}</span>
-              ))}
-            </div>
-            <div className={styles.cardMeta}>
-              <span>🕐 Mon–Sat</span>
-              <span>📍 Ramdaspeth, Nagpur</span>
-            </div>
-          </div>
-                
-          {/* <div className={styles.floatBadge}>
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <circle cx="8" cy="8" r="8" fill="#0D7A6E" />
-              <path d="M5 8l2 2 4-4" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-            APLAR Certified Specialist
-          </div> */}
+          <div className={styles.photoFrame}>
+            <img src={drNishantImage} alt={doctor.name} className={styles.photoImg} />
+
+          <div className={styles.nameOverlay}>
+          <span className={styles.nameText}>{doctor.name}</span>
+          {/* <span className={styles.nameSpecialty}>{doctor.title}</span> */}
+       </div>
+      </div>
+
+        
         </div>
       </div>
 
