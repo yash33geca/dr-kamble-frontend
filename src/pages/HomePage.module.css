@@ -1,0 +1,38 @@
+.main {
+  display: flex;
+  flex-direction: column;
+}
+
+.heroSection {
+  order: 1;
+}
+
+.servicesSection {
+  order: 2;
+}
+
+.aboutSection {
+  order: 3;
+}
+
+.reviewsSection {
+  order: 4;
+}
+
+.articlesSection {
+  order: 5;
+}
+
+.faqSection {
+  order: 6;
+}
+
+@media (max-width: 768px) {
+  .aboutSection {
+    order: 2;
+  }
+
+  .servicesSection {
+    order: 3;
+  }
+}
