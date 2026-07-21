@@ -74,7 +74,7 @@ export default function Services() {
       <div className="container">
         <div className={styles.header}>
           <p className="section-label">What We Treat</p>
-          <h2 className={styles.heading}>Conditions & Services</h2>
+          <h2 className={styles.heading}>Conditions </h2>
           <p className={styles.sub}>
             Specialised diagnosis and management of the full spectrum of rheumatological and autoimmune conditions.
           </p>

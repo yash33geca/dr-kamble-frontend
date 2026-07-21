@@ -1,15 +1,41 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+// import { useNavigate } from 'react-router-dom'
 import { doctor } from '../data/dummy'
 import { useAuth } from '../context/AuthContext'
 import LoginModal from './LoginModal'
 import styles from './Hero.module.css'
+import { Link, useNavigate } from 'react-router-dom'
+
+// Importing images for services
+import rheumatoidArthritisImg from '../assets/Services_Images/Rheumatoid arthritis .png'
+import lupusImg from '../assets/Services_Images/Lupus .png'
+import vasculitisImg from '../assets/Services_Images/Vasculitis Arthritis.png'
+import psoriaticArthritisImg from '../assets/Services_Images/Psoriatic Arthritis.jpeg'
+import sjogrensImg from '../assets/Services_Images/Sjogrens Disease.jpeg'
+import osteoarthritisImg from '../assets/Services_Images/Osteoarthritis.jpeg'
+import myositisImg from '../assets/Services_Images/Inflammatory Myositis.png'
+import reactiveArthritisImg from '../assets/Services_Images/Reactive Arthritis.jpeg'
+import juvenileIdiopathicArthritisImg from '../assets/Services_Images/Juvenile Idiopathic Arthritis.png'
+import undifferentiatedconnectivetissuediseaseImg from '../assets/Services_Images/undifferentiated-connective-tissue-disease.png'
+import behcetsImg from '../assets/Services_Images/Behcets Disease.png'
+import igG4relateddisease from '../assets/Services_Images/IgG4-Related Disease.png'
+import osteoporosis from '../assets/Services_Images/Osteoporosis.png'
+import systemicsclerosis from '../assets/Services_Images/Systemic sclerosis.png'
+import enteropathic from '../assets/Services_Images/Enteropathic .png'
+import mixedconnectivetissuedisease from '../assets/Services_Images/Mixed connective tissue disease.png'
+import fibromyalgia from '../assets/Services_Images/Fibromyalgia.png'
+import antiphospholipidsyndrome from '../assets/Services_Images/Antiphospholipid syndrome.png'
+import raynaudsphenomenon from '../assets/Services_Images/Raynaud’s phenomenon.png'
+import sarcoidosis from '../assets/Services_Images/Sarcoidosis.png'
+import gout from '../assets/Services_Images/Gout.png'
+import ankylosingspondylitis from '../assets/Services_Images/Ankylosing spondylitis.png'
+
 
 const stats = [
   { value: `${doctor.experience}+`, label: 'Years Experience' },
   { value: `${(doctor.patients / 1000).toFixed(1)}k+`, label: 'Patients Treated' },
-  { value: '3', label: 'International Fellowships' },
-  { value: '5', label: 'Hospitals Affiliated' },
+  { value: '1', label: 'International Fellowships' },
+  { value: '6', label: 'Hospitals Affiliated' },
 ]
 
 export default function Hero() {
@@ -56,7 +82,7 @@ export default function Hero() {
             <button className="btn-primary" onClick={handleBookClick}>
               Book an Appointment →
             </button>
-            <a href="#services" className="btn-outline">View Services</a>
+            <Link to="/services" className="btn-outline">View Services</Link>
           </div>
 
           <div className={styles.stats}>

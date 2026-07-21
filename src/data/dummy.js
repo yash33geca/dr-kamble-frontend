@@ -1,3 +1,28 @@
+import rheumatoidArthritisImg from '../assets/Services_Images/Rheumatoid arthritis .png'
+import lupusImg from '../assets/Services_Images/Lupus .png'
+import vasculitisImg from '../assets/Services_Images/Vasculitis Arthritis.png'
+import psoriaticArthritisImg from '../assets/Services_Images/Psoriatic Arthritis.jpeg'
+import sjogrensImg from '../assets/Services_Images/Sjogrens Disease.jpeg'
+import osteoarthritisImg from '../assets/Services_Images/Osteoarthritis.jpeg'
+import myositisImg from '../assets/Services_Images/Inflammatory Myositis.png'
+import reactiveArthritisImg from '../assets/Services_Images/Reactive Arthritis.jpeg'
+import juvenileIdiopathicArthritisImg from '../assets/Services_Images/Juvenile Idiopathic Arthritis.png'
+import undifferentiatedconnectivetissuediseaseImg from '../assets/Services_Images/undifferentiated-connective-tissue-disease.png'
+import behcetsImg from '../assets/Services_Images/Behcets Disease.png'
+import igG4relateddisease from '../assets/Services_Images/IgG4-Related Disease.png'
+import osteoporosis from '../assets/Services_Images/Osteoporosis.png'
+import systemicsclerosis from '../assets/Services_Images/Systemic sclerosis.png'
+import enteropathic from '../assets/Services_Images/Enteropathic .png'
+import mixedconnectivetissuedisease from '../assets/Services_Images/Mixed connective tissue disease.png'
+import fibromyalgia from '../assets/Services_Images/Fibromyalgia.png'
+import antiphospholipidsyndrome from '../assets/Services_Images/Antiphospholipid syndrome.png'
+import raynaudsphenomenon from '../assets/Services_Images/Raynaud’s phenomenon.png'
+import sarcoidosis from '../assets/Services_Images/Sarcoidosis.png'
+import gout from '../assets/Services_Images/Gout.png'
+import ankylosingspondylitis from '../assets/Services_Images/Ankylosing spondylitis.png'
+
+
+
 // ─── Doctor ───────────────────────────────────────────────────────────────────
 export const doctor = {
   name: 'Dr. Nishant Kamble',
@@ -5,8 +30,8 @@ export const doctor = {
   title: 'MBBS, MD(General Medicine), DM (Clinical Immunology & Rheumatology), SCE Rheumatology(RCP, UK), EULAR Certified',
   specialty: 'Consultant Rheumatologist & Clinical Immunologist',
   hospital: 'Rheumatology and Autoimmune Disease Clinic',
-  experience: 14,
-  patients: 8500,
+  experience: 12,
+  patients: 20000,
   bio: `Dr. Nishant Kamble is a highly qualified Rheumatologist and Clinical Immunologist dedicated to the diagnosis and management of autoimmune, inflammatory, and musculoskeletal diseases. He completed his MBBS from Government Medical College, Nagpur, followed by MD in General Medicine from Dr. S.N. Medical College, Jodhpur. He further pursued superspecialty training in Clinical Immunology and Rheumatology (DM) from the prestigious King George's Medical University (KGMU), Lucknow.
 
 To further strengthen his expertise, Dr. Kamble has successfully completed the Specialty Certificate Examination (SCE) in Rheumatology conducted by the Royal College of Physicians, United Kingdom, and is EULAR (European Alliance of Associations for Rheumatology) Certified.
@@ -42,6 +67,7 @@ export const services = [
     slug: 'rheumatoid-arthritis',
     title: 'Rheumatoid Arthritis',
     icon: '🦴',
+    image: rheumatoidArthritisImg,
     description: 'Rheumatoid Arthritis is a chronic autoimmune disease in which the immune system mistakenly attacks the joints, causing pain, swelling, stiffness, and fatigue. If left untreated, it can lead to joint damage and disability. Early diagnosis and modern treatment can help patients maintain an active and productive life.',
     duration: 30,
   },
@@ -50,6 +76,7 @@ export const services = [
     slug: 'systemic-lupus-erythematosus-(sle-/lupus)',
     title: 'Systemic Lupus Erythematosus (SLE / Lupus)',
     icon: '🔬',
+    image: lupusImg,
     description: 'Lupus is a complex autoimmune disease that can affect multiple organs including the skin, joints, kidneys, lungs, heart, brain, and blood cells. Symptoms vary widely between individuals. Regular monitoring and specialized care are essential for effective disease control.',
     duration: 30,
   },
@@ -58,6 +85,7 @@ export const services = [
     slug: 'ankylosing-spondylitis',
     title: 'Ankylosing Spondylitis',
     icon: '🫀',
+    image: ankylosingspondylitis,
     description: 'Ankylosing Spondylitis is a type of inflammatory arthritis that mainly affects the spine and sacroiliac joints. It commonly presents with chronic back pain and morning stiffness in young adults. Early treatment can reduce symptoms, improve mobility, and prevent long-term complications.',
     duration: 30,
   },
@@ -66,6 +94,7 @@ export const services = [
     slug: 'gout',
     title: 'Gout',
     icon: '💊',
+    image: gout,
     description: 'Gout is a common and highly treatable form of arthritis caused by the accumulation of uric acid crystals within the joints. It typically presents with sudden attacks of severe pain, swelling, redness, and tenderness, often affecting the big toe.',
     duration: 20,
   },
@@ -74,6 +103,7 @@ export const services = [
     slug: 'osteoporosis',
     title: 'Osteoporosis & Bone Health',
     icon: '🩻',
+    image: osteoporosis,
     description: 'Osteoporosis is a condition characterized by decreased bone strength, making bones fragile and susceptible to fractures. It often develops silently and may remain unnoticed until a fracture occurs. Early screening and treatment can significantly reduce fracture risk.',
     duration: 30,
   },
@@ -82,6 +112,7 @@ export const services = [
     slug: 'vasculitis',
     title: 'Vasculitis & Rare Disorders',
     icon: '🧬',
+    image: vasculitisImg,
     description: 'Vasculitis refers to a group of diseases that cause inflammation of blood vessels. Depending on the vessels involved, it may affect the skin, kidneys, lungs, nerves, eyes, or other organs. Early diagnosis is crucial to prevent permanent organ damage.',
     duration: 45,
   },
@@ -90,6 +121,7 @@ export const services = [
     slug: 'psoriatic-arthritis',
     title: 'Psoriatic Arthritis',
     icon: '🌿',
+    image: psoriaticArthritisImg,
     description: 'Psoriatic Arthritis is an inflammatory joint disease associated with psoriasis, a skin condition characterized by scaly patches. It can affect joints, tendons, ligaments, and the spine. Timely diagnosis and treatment help prevent joint damage and improve quality of life.',
     duration: 30,
   },
@@ -98,6 +130,7 @@ export const services = [
     slug: 'sjogrens-syndrome',
     title: 'Sjögren\'s Syndrome',
     icon: '💧',
+    image: sjogrensImg,
     description: 'Sjögren\'s Syndrome is an autoimmune condition that primarily affects the glands responsible for producing tears and saliva, leading to dry eyes and dry mouth. Some patients may also experience joint pain, fatigue, nerve involvement, or lung disease.',
     duration: 30,
   },
@@ -106,6 +139,7 @@ export const services = [
     slug: 'osteoarthritis',
     title: 'Osteoarthritis',
     icon: '🦿',
+    image: osteoarthritisImg,
     description: 'Osteoarthritis is the most common form of arthritis and occurs due to gradual wear and tear of joint cartilage. It commonly affects the knees, hips, hands, and spine, causing pain, stiffness, and reduced joint function over time.',
     duration: 25,
   },
@@ -114,6 +148,7 @@ export const services = [
     slug: 'systemic-sclerosis',
     title: 'Systemic Sclerosis',
     icon: '🧠',
+    image: systemicsclerosis,
     description: 'Systemic Sclerosis is a rare autoimmune disease that causes thickening and hardening of the skin. It may also affect internal organs such as the lungs, heart, kidneys, and digestive tract, requiring comprehensive long-term management.',
     duration: 45,
   },
@@ -122,6 +157,7 @@ export const services = [
     slug: 'inflammatory-myositis',
     title: 'Inflammatory Myositis',
     icon: '💪',
+    image: myositisImg,
     description: 'Inflammatory Myositis is a group of autoimmune disorders that cause muscle inflammation and weakness. Patients may experience difficulty climbing stairs, rising from a chair, or lifting objects. Early treatment can improve muscle strength and function.',
     duration: 35,
   },
@@ -130,6 +166,7 @@ export const services = [
     slug: 'mixed-connective-tissue-disease',
     title: 'Mixed Connective Tissue Disease',
     icon: '🧪',
+    image: mixedconnectivetissuedisease,
     description: 'Mixed Connective Tissue Disease is an autoimmune overlap syndrome with features of lupus, scleroderma, and inflammatory muscle disease. Symptoms vary from person to person and often require individualized treatment and long-term follow-up.',
     duration: 40,
   },
@@ -138,6 +175,7 @@ export const services = [
     slug: 'reactive-arthritis',
     title: 'Reactive Arthritis',
     icon: '🩺',
+    image: reactiveArthritisImg,
     description: 'Reactive Arthritis is an inflammatory joint condition that develops after certain bacterial infections, commonly involving the gastrointestinal or urinary tract. It can cause joint pain, eye inflammation, and urinary symptoms.',
     duration: 30,
   },
@@ -146,6 +184,7 @@ export const services = [
     slug: 'enteropathic-arthritis',
     title: 'Enteropathic Arthritis',
     icon: '🧫',
+    image: enteropathic,
     description: 'Enteropathic Arthritis is associated with inflammatory bowel diseases such as Crohn\'s disease and ulcerative colitis. Patients may experience both digestive symptoms and joint inflammation, requiring coordinated care between specialists.',
     duration: 30,
   },
@@ -154,6 +193,7 @@ export const services = [
     slug: 'juvenile-idiopathic-arthritis',
     title: 'Juvenile Idiopathic Arthritis',
     icon: '🧒',
+    image: juvenileIdiopathicArthritisImg,
     description: 'Juvenile Idiopathic Arthritis is the most common chronic rheumatic disease affecting children. It causes persistent joint inflammation, pain, swelling, and stiffness. Early diagnosis and treatment are important to ensure normal growth and development.',
     duration: 35,
   },
@@ -162,6 +202,7 @@ export const services = [
     slug: 'fibromyalgia',
     title: 'Fibromyalgia',
     icon: '🌙',
+    image: fibromyalgia,
     description: 'Fibromyalgia is a chronic pain syndrome characterized by widespread body pain, fatigue, sleep disturbances, and difficulties with concentration and memory. Although it does not cause joint damage, it can significantly impact daily life and well-being.',
     duration: 25,
   },
@@ -170,6 +211,7 @@ export const services = [
     slug: 'behcets-disease',
     title: 'Behçet\'s Disease',
     icon: '🗣️',
+    image: behcetsImg,
     description: 'Behçet\'s Disease is a rare inflammatory disorder characterized by recurrent mouth ulcers, genital ulcers, skin lesions, and eye inflammation. In some cases, it may also involve blood vessels, the nervous system, or the gastrointestinal tract.',
     duration: 40,
   },
@@ -178,6 +220,7 @@ export const services = [
     slug: 'antiphospholipid-syndrome',
     title: 'Antiphospholipid Syndrome',
     icon: '🩸',
+    image: antiphospholipidsyndrome,
     description: 'Antiphospholipid Syndrome is an autoimmune condition that increases the risk of blood clot formation. It can lead to deep vein thrombosis, stroke, recurrent pregnancy loss, and other complications. Early recognition and treatment are essential.',
     duration: 35,
   },
@@ -186,6 +229,7 @@ export const services = [
     slug: 'undifferentiated-connective-tissue-disease',
     title: 'Undifferentiated CTD',
     icon: '🧬',
+    image: undifferentiatedconnectivetissuediseaseImg,
     description: 'UCTD refers to autoimmune conditions that show features of connective tissue disease but do not meet the criteria for a specific diagnosis. Regular monitoring helps identify disease progression and guides appropriate treatment.',
     duration: 30,
   },
@@ -194,6 +238,7 @@ export const services = [
     slug: 'raynauds-phenomenon',
     title: 'Raynaud\'s Phenomenon',
     icon: '❄️',
+    image: raynaudsphenomenon,
     description: 'Raynaud\'s Phenomenon causes episodes of reduced blood flow to the fingers and toes, leading to color changes, numbness, and discomfort in response to cold temperatures or emotional stress. It may occur alone or as part of another autoimmune disease.',
     duration: 25,
   },
@@ -202,6 +247,7 @@ export const services = [
     slug: 'igg4-related-disease',
     title: 'IgG4-Related Disease',
     icon: '🫁',
+    image: igG4relateddisease,
     description: 'IgG4-Related Disease is a chronic inflammatory condition that can affect multiple organs including the pancreas, salivary glands, kidneys, lungs, and lymph nodes. Early diagnosis can help prevent permanent organ damage.',
     duration: 40,
   },
@@ -210,6 +256,7 @@ export const services = [
     slug: 'sarcoidosis',
     title: 'Sarcoidosis',
     icon: '🫧',
+    image: sarcoidosis,
     description: 'Sarcoidosis is an inflammatory disease characterized by the formation of granulomas in various organs, most commonly the lungs, lymph nodes, skin, and eyes. Symptoms vary widely and may require specialized multidisciplinary care.',
     duration: 35,
   },
