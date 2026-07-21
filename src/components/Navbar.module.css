@@ -31,21 +31,14 @@
 }
 
 .brandMark {
-  width: 44px;
-  height: 44px;
+  width: 54px;
+  height: 54px;
   flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-/* .brandMark {
-  width: 52px;   
-  height: 52px;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-} */
+
 .brandMark img {
   width: 100%;
   height: 100%;
@@ -274,6 +267,11 @@
 
 /* ── Responsive ─────────────────────────────────────────────────────────────── */
 @media (max-width: 768px) {
+  .brandMark {
+    width: 48px;
+    height: 48px;
+  }
+
   .hamburger {
     display: flex;
   }

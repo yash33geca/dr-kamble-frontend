@@ -12,6 +12,7 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
+  overflow: hidden;
 }
 
 .bgGrid {
@@ -49,9 +50,14 @@
 .inner {
   position: relative;
   display: grid;
-  grid-template-columns: 1fr 420px;
+  grid-template-columns: minmax(0, 1fr) 420px;
   gap: 80px;
   align-items: center;
+}
+
+.content,
+.visual {
+  min-width: 0;
 }
 
 .badge {
@@ -116,9 +122,9 @@
 }
 
 .stats {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(4, auto);
   gap: 40px;
-  flex-wrap: wrap;
   padding-top: 32px;
   border-top: 1px solid var(--gray-100);
 }
@@ -127,6 +133,18 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
+  position: relative;
+  padding-right: 40px;
+}
+
+.stat:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  right: 0;
+  width: 1px;
+  height: 32px;
+  background: var(--gray-100);
 }
 
 .statVal {
@@ -141,61 +159,83 @@
   font-size: 12px;
   color: var(--gray-500);
   letter-spacing: 0.02em;
+  white-space: nowrap;
 }
 
-/* Card */
+/* Visual panel (desktop only, see media query below) */
 .visual {
   position: relative;
-}
-
-.card {
-  background: white;
-  border-radius: var(--radius-xl);
-  border: 1px solid var(--gray-100);
-  padding: 32px;
-  box-shadow: var(--shadow-lg);
   display: flex;
   flex-direction: column;
   gap: 20px;
+  align-self: start;
 }
 
-.avatar {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  background: var(--navy);
+.photoFrame {
+  position: relative;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  width: 100%;
+}
+
+.photoImg {
+  width: 100%;
+  height: 460px;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+}
+
+.nameOverlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 28px 24px 20px;
+  background: linear-gradient(to top, rgba(10, 30, 40, 0.85) 0%, rgba(10, 30, 40, 0.35) 60%, transparent 100%);
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  gap: 2px;
 }
 
-.avatar span {
+.nameText {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 700;
+  color: white;
+  letter-spacing: 0.01em;
+}
+
+.credGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.credCard {
+  background: white;
+  border: 1px solid var(--gray-100);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.credValue {
   font-family: var(--font-display);
   font-size: 22px;
   font-weight: 700;
-  color: white;
-  letter-spacing: 0.05em;
-}
-
-.cardInfo h3 {
-  font-size: 20px;
-  font-weight: 600;
   color: var(--navy);
-  margin-bottom: 4px;
 }
 
-.cardInfo p {
-  font-size: 13px;
+.credLabel {
+  font-size: 12px;
   color: var(--gray-500);
-  margin-bottom: 2px;
 }
 
-.cardSpec {
-  color: var(--teal) !important;
-  font-weight: 500 !important;
-}
-
-.cardTags {
+.specialtyTags {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
@@ -210,33 +250,25 @@
   border-radius: 20px;
 }
 
-.cardMeta {
-  display: flex;
-  gap: 16px;
-  padding-top: 16px;
-  border-top: 1px solid var(--gray-100);
-}
+/* ===== Responsive ===== */
 
-.cardMeta span {
-  font-size: 12px;
-  color: var(--gray-500);
-}
+@media (max-width: 1100px) {
+  .inner {
+    grid-template-columns: minmax(0, 1fr) minmax(300px, 360px);
+    gap: 40px;
+  }
 
-.floatBadge {
-  position: absolute;
-  bottom: -16px;
-  left: -16px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: white;
-  border: 1px solid var(--gray-100);
-  padding: 10px 16px;
-  border-radius: var(--radius-lg);
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--gray-700);
-  box-shadow: var(--shadow-md);
+  .photoImg {
+    height: 420px;
+  }
+
+  .stats {
+    gap: 24px;
+  }
+
+  .stat {
+    padding-right: 24px;
+  }
 }
 
 @media (max-width: 900px) {
@@ -245,17 +277,35 @@
     gap: 48px;
   }
   .visual {
-    max-width: 420px;
+    display: none; /* keep this desktop-only for now */
+  }
+  .bgCircle1 {
+    width: 420px;
+    height: 420px;
+    top: -160px;
+    right: -160px;
+    opacity: 0.5;
+  }
+  .bgCircle2 {
+    width: 260px;
+    height: 260px;
+    bottom: -60px;
+    left: -80px;
+    opacity: 0.45;
+  }
+
+  @media (max-width: 900px) {
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px 20px;
+  }
+  .stat {
+    padding-right: 0;
+  }
+  .stat:not(:last-child)::after {
+    display: none;
   }
 }
-
-@media (max-width: 480px) {
-  .stats {
-    gap: 24px;
-  }
-  .actions {
-    flex-direction: column;
-  }
 }
 
 @media (max-width: 480px) {
@@ -264,5 +314,21 @@
     min-height: auto;
   }
   .actions { margin-bottom: 32px; }
-  .stats { padding-top: 24px; }
+  .stats { padding-top: 24px; gap: 24px; }
+  .actions { flex-direction: column; }
+
+  .bgCircle1 {
+    width: 280px;
+    height: 280px;
+    top: -100px;
+    right: -100px;
+    opacity: 0.45;
+  }
+  .bgCircle2 {
+    width: 180px;
+    height: 180px;
+    bottom: -40px;
+    left: -60px;
+    opacity: 0.35;
+  }
 }

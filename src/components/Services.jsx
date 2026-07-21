@@ -105,8 +105,11 @@ export default function Services() {
                       )}
                     </div>
                     <div className={styles.cardBody}>
-                      <h3 className={styles.title}>{s.title}</h3>
-                      <p className={styles.desc}>{s.description}</p>
+                       <h3 className={styles.title}>{s.title}</h3>
+                       <p className={styles.desc}>{s.description}</p>
+                       <Link to={`/services#service-${s.id}`} className={styles.showMore}>
+                         Show more →
+                       </Link>
                     </div>
                     <div className={styles.footer}>
                       <span className={styles.duration}>⏱ {s.duration} min</span>

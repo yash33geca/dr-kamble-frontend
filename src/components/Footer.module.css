@@ -137,12 +137,18 @@
 }
 
 .conditionItem {
+  display: block;
   font-size: 12.5px;
   line-height: 1.7;
   color: rgba(255,255,255,0.5);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  transition: color var(--transition);
+}
+
+.conditionItem:hover {
+  color: white;
 }
 
 .bottom {
