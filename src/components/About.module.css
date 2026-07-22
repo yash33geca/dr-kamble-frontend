@@ -100,8 +100,18 @@
   margin-top: 5px;
 }
 
+/* Mobile-only duplicates (hidden on desktop) */
+.mobileLabel,
+.mobileHeading,
+.mobileTitleRow {
+  display: none;
+}
+
 /* Content column */
-.content {}
+.content {
+  display: flex;
+  flex-direction: column;
+}
 
 .heading {
   font-size: clamp(28px, 4vw, 42px);
@@ -197,20 +207,58 @@
     grid-template-columns: 1fr;
     gap: 48px;
   }
+
   .visual {
     position: static;
-    flex-direction: row;
-    flex-wrap: wrap;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
+
   .photoCard {
-    flex: 1;
-    min-width: 200px;
-    max-width: 280px;
+    width: 100%;
+    max-width: 380px;
+    margin: 0 auto;
   }
+
   .memberships {
-    flex: 1;
-    min-width: 240px;
+    width: 100%;
+    max-width: 380px;
+    margin: 0 auto;
   }
+
+  /* Show mobile label/heading/titleRow around the photo */
+  .mobileLabel {
+    display: block;
+    text-align: center;
+    margin-bottom: 0;
+  }
+
+  .mobileHeading {
+    display: block;
+    text-align: center;
+    margin-top: 4px;
+    margin-bottom: 0;
+  }
+
+  .mobileTitleRow {
+    display: block;
+    text-align: center;
+    margin-bottom: 0;
+  }
+
+  /* Hide desktop versions on mobile */
+  .desktopLabel,
+  .desktopHeading,
+  .desktopTitleRow {
+    display: none;
+  }
+
+  /* Reorder remaining content: qualifications before bio */
+  .quals      { order: 1; }
+  .bio        { order: 2; }
+  .languages  { order: 3; }
+
   .qual {
     grid-template-columns: 1fr;
     gap: 4px;
