@@ -8,6 +8,9 @@ export default function About() {
       <div className="container">
         <div className={styles.inner}>
           <div className={styles.visual}>
+            {/* Mobile-only: label appears right above the photo */}
+            <p className={`section-label ${styles.mobileLabel}`}>Meet the Doctor</p>
+
             <div className={styles.photoCard}>
               <img
                 src={doctorImage}
@@ -24,6 +27,14 @@ export default function About() {
               </div>
             </div>
 
+            {/* Mobile-only: doctor name appears right below the photo */}
+            <h2 className={`${styles.heading} ${styles.mobileHeading}`}>{doctor.name}</h2>
+
+            {/* Mobile-only: title/qualification row right below the name */}
+            <p className={`${styles.titleRow} ${styles.mobileTitleRow}`}>
+              {doctor.title} · {doctor.specialty}
+            </p>
+
             <div className={styles.memberships}>
               <p className={styles.membershipsTitle}>Professional Memberships</p>
               {doctor.memberships.map(m => (
@@ -36,9 +47,11 @@ export default function About() {
           </div>
 
           <div className={styles.content}>
-            <p className="section-label">Meet the Doctor</p>
-            <h2 className={styles.heading}>{doctor.name}</h2>
-            <p className={styles.titleRow}>{doctor.title} · {doctor.specialty}</p>
+            <p className={`section-label ${styles.desktopLabel}`}>Meet the Doctor</p>
+            <h2 className={`${styles.heading} ${styles.desktopHeading}`}>{doctor.name}</h2>
+            <p className={`${styles.titleRow} ${styles.desktopTitleRow}`}>
+              {doctor.title} · {doctor.specialty}
+            </p>
 
             {doctor.bio.split('\n\n').map((para, i) => (
               <p key={i} className={styles.bio}>{para}</p>
