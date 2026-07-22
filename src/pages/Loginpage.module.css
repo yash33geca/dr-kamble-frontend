@@ -4,6 +4,7 @@
   grid-template-columns: 1fr 1fr;
 }
 
+
 /* ── Left panel ────────────────────────────────────────────────────────────── */
 .left {
   display: flex;
