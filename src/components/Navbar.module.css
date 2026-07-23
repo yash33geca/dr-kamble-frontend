@@ -27,7 +27,8 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  flex-shrink: 0;
+  flex-shrink: 1;
+  min-width: 0;
 }
 
 .brandMark {
@@ -50,6 +51,8 @@
   display: flex;
   flex-direction: column;
   gap: 1px;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .brandName {
@@ -58,12 +61,18 @@
   font-weight: 600;
   color: var(--navy);
   line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .brandSub {
   font-size: 12px;
   color: var(--gray-500);
   letter-spacing: 0.02em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .links {
@@ -100,6 +109,7 @@
   background: none;
   border: none;
   cursor: pointer;
+  flex-shrink: 0;
 }
 
 .bar {
@@ -206,9 +216,10 @@
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-lg);
   min-width: 220px;
+  max-width: calc(100vw - 32px);
   overflow: hidden;
   animation: dropIn 0.15s ease;
-  z-index: 110;
+  z-index: 200;
 }
 
 @keyframes dropIn {
@@ -225,11 +236,17 @@
   font-weight: 500;
   color: var(--navy);
   margin-bottom: 2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .dropdownEmail {
   font-size: 12px;
   color: var(--gray-500);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .dropdownDivider {
@@ -318,5 +335,41 @@
 
   .signInBtn {
     display: none;
+  }
+}
+
+/* Extra-narrow phones: after login the avatar+chevron take more
+   width than the old "Sign in" button did, which was pushing the
+   hamburger off-screen. Shrink the brand block instead so the
+   hamburger/avatar always stay on-screen and tappable. */
+@media (max-width: 400px) {
+  .inner {
+    gap: 12px;
+  }
+
+  .brandMark {
+    width: 38px;
+    height: 38px;
+  }
+
+  .brandSub {
+    display: none;
+  }
+
+  .brandName {
+    font-size: 14px;
+  }
+
+  .rightSlot {
+    gap: 8px;
+  }
+
+  .avatarBtn {
+    gap: 4px;
+    padding: 3px;
+  }
+
+  .chevron {
+    margin-right: 2px;
   }
 }

@@ -113,7 +113,7 @@ export default function Services() {
                     </div>
                     <div className={styles.footer}>
                       <span className={styles.duration}>⏱ {s.duration} min</span>
-                      <a href="/contact" className={styles.bookLink}>Book →</a>
+                      <Link to="/contact" className={styles.bookLink}>Book →</Link>
                     </div>
                   </div>
                 ))}
@@ -150,4 +150,3 @@ export default function Services() {
     </section>
   )
 }
-
