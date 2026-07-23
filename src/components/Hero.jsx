@@ -97,18 +97,14 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* Desktop-only visual: photo frame + credential/specialty badges */}
         <div className={styles.visual}>
           <div className={styles.photoFrame}>
             <img src={drNishantImage} alt={doctor.name} className={styles.photoImg} />
 
-          <div className={styles.nameOverlay}>
-          <span className={styles.nameText}>{doctor.name}</span>
-          {/* <span className={styles.nameSpecialty}>{doctor.title}</span> */}
-       </div>
-      </div>
-
-        
+            <div className={styles.nameOverlay}>
+              <span className={styles.nameText}>{doctor.name}</span>
+            </div>
+          </div>
         </div>
       </div>
 

@@ -1,9 +1,9 @@
 .hero {
   position: relative;
-  min-height: 100vh;
+  min-height: auto;
   display: flex;
-  align-items: center;
-  padding: 120px 0 80px;
+  align-items: flex-start;
+  padding: 132px 0 72px;
   overflow: hidden;
   background: var(--white);
 }
@@ -162,21 +162,17 @@
   white-space: nowrap;
 }
 
-/* Visual panel (desktop only, see media query below) */
 .visual {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
   align-self: start;
 }
 
 .photoFrame {
   position: relative;
-  border-radius: var(--radius-xl);
-  overflow: hidden;
-  box-shadow: var(--shadow-lg);
   width: 100%;
+  overflow: hidden;
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
 }
 
 .photoImg {
@@ -189,14 +185,14 @@
 
 .nameOverlay {
   position: absolute;
+  right: 0;
   bottom: 0;
   left: 0;
-  right: 0;
-  padding: 28px 24px 20px;
-  background: linear-gradient(to top, rgba(10, 30, 40, 0.85) 0%, rgba(10, 30, 40, 0.35) 60%, transparent 100%);
   display: flex;
   flex-direction: column;
   gap: 2px;
+  padding: 28px 24px 20px;
+  background: linear-gradient(to top, rgba(10, 30, 40, 0.85) 0%, rgba(10, 30, 40, 0.35) 60%, transparent 100%);
 }
 
 .nameText {
@@ -252,33 +248,29 @@
 
 /* ===== Responsive ===== */
 
-@media (max-width: 1100px) {
+/* Tablet range (covers iPad portrait/landscape, ~768–1180px):
+   keep the doctor photo visible from 912px wide and above,
+   and keep all 4 stats on a single line. */
+@media (max-width: 1180px) {
+  .hero {
+    min-height: auto;
+    padding: 112px 0 56px;
+  }
+
   .inner {
-    grid-template-columns: minmax(0, 1fr) minmax(300px, 360px);
-    gap: 40px;
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 320px);
+    gap: 32px;
+  }
+
+  .visual {
+    width: 100%;
+    justify-self: end;
   }
 
   .photoImg {
-    height: 420px;
+    height: 390px;
   }
 
-  .stats {
-    gap: 24px;
-  }
-
-  .stat {
-    padding-right: 24px;
-  }
-}
-
-@media (max-width: 900px) {
-  .inner {
-    grid-template-columns: 1fr;
-    gap: 48px;
-  }
-  .visual {
-    display: none; /* keep this desktop-only for now */
-  }
   .bgCircle1 {
     width: 420px;
     height: 420px;
@@ -286,6 +278,7 @@
     right: -160px;
     opacity: 0.5;
   }
+
   .bgCircle2 {
     width: 260px;
     height: 260px;
@@ -294,10 +287,46 @@
     opacity: 0.45;
   }
 
-  @media (max-width: 900px) {
   .stats {
+    grid-template-columns: repeat(4, auto);
+    gap: 16px;
+  }
+
+  .stat {
+    padding-right: 16px;
+  }
+
+  .statVal {
+    font-size: 22px;
+  }
+
+  .statLabel {
+    font-size: 10.5px;
+    white-space: normal;
+  }
+}
+
+@media (max-width: 911px) {
+  .inner {
+    grid-template-columns: 1fr;
+  }
+
+  .visual {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    padding: 96px 0 48px;
+    min-height: auto;
+  }
+
+  .actions { margin-bottom: 32px; }
+  .stats {
+    padding-top: 24px;
+    gap: 12px;
     grid-template-columns: repeat(2, 1fr);
-    gap: 24px 20px;
   }
   .stat {
     padding-right: 0;
