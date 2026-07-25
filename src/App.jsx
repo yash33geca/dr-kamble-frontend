@@ -40,8 +40,8 @@ export default function App() {
           <Route path="/articles/:slug" element={<ArticlePage />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/website/contact" element={<Contact />} />
-          <Route path="/*" element={<HomePage />} />
           <Route path="/services" element={<AllServicesPage />} />
+          <Route path="/*" element={<HomePage />} />
         </Routes>
       </Router>
     </AuthProvider>
