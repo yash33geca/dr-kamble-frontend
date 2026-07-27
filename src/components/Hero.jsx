@@ -45,13 +45,19 @@ export default function Hero() {
   const [showModal, setShowModal] = useState(false)
   const navigate = useNavigate()
 
+  // const handleBookClick = (e) => {
+  //   e.preventDefault()
+  //   if (!user) {
+  //     setShowModal(true)
+  //   } else {
+  //     navigate('/contact')
+  //   }
+  // }
+
+  // fixed the issue of modal not opening when user is not logged in and clicking on book an appointment button
   const handleBookClick = (e) => {
-    e.preventDefault()
-    if (!user) {
-      setShowModal(true)
-    } else {
-      navigate('/contact')
-    }
+   e.preventDefault()
+   navigate('/contact')
   }
 
   return (
