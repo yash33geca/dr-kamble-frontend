@@ -11,7 +11,7 @@ const navLinks = [
   { label: 'Articles', to: '/#articles' },
   { label: 'Reviews', to: '/#reviews' },
   { label: 'FAQ', to: '/#faq' },
-  { label: 'Contact', to: '/website/contact' },
+  { label: 'Contact', to: '/contact' },
 ]
 
 export default function Navbar() {

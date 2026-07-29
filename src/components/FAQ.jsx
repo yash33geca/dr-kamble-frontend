@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { faqs } from '../data/dummy'
 import styles from './FAQ.module.css'
 
@@ -17,6 +18,7 @@ function FAQItem({ faq }) {
 }
 
 export default function FAQ() {
+  const navigate = useNavigate()
   return (
     <section id="faq" className={styles.section}>
       <div className="container">
@@ -27,9 +29,9 @@ export default function FAQ() {
             <p className={styles.sub}>
               Can't find your answer here? Call us or use the contact form and we'll respond within one business day.
             </p>
-            <a href="/contact" className="btn-primary" style={{ marginTop: '24px', display: 'inline-flex' }}>
+            <button className="btn-primary" style={{ marginTop: '24px', display: 'inline-flex' }} onClick={() => navigate('/contact')}>
               Ask a Question →
-            </a>
+            </button>
           </div>
           <div className={styles.right}>
             {faqs.map(f => <FAQItem key={f.id} faq={f} />)}
