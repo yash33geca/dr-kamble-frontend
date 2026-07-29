@@ -57,6 +57,13 @@ export default function Reviews() {
   const [page,          setPage]          = useState(1)
 
   useEffect(() => {
+    // Guard against Firebase initialization errors. If `database` is not
+    // available, don't attempt to set up the listener.
+    if (!database) {
+      setLoadError('Could not connect to the database.')
+      setLoading(false)
+      return
+    }
     const reviewsRef = ref(database, 'reviews')
 
     const unsubscribe = onValue(
@@ -81,6 +88,12 @@ export default function Reviews() {
   }, [])
 
   useEffect(() => {
+    if (!database) {
+      // No need to set error again, just exit.
+      setLoadingGoogle(false)
+      return
+    }
+
     const googleReviewsRef = ref(database, 'googleReviews')
 
     const unsubscribe = onValue(
