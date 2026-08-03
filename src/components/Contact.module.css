@@ -13,7 +13,7 @@
 .header {
   position: sticky;
   top: 96px;
-  z-index: 40;
+  z-index: 30;
   background: var(--off-white);
   padding-top: 8px;
   padding-bottom: 8px;
@@ -22,6 +22,15 @@
   margin-left: auto;
   margin-right: auto;
 }
+/* Applied on top of .header once a location is picked (Step 2 / the
+   details form). No long list to scroll past anymore, so the heading no
+   longer needs to stay frozen — it just sits normally in the page flow. */
+.headerStatic {
+  position: static;
+  top: auto;
+  box-shadow: none;
+}
+
 .heading { font-size: clamp(28px, 4vw, 40px); margin-bottom: 12px; }
 .sub {
   font-size: 15px;
@@ -475,8 +484,8 @@
 
 /* Large phone / small tablet */
 @media (max-width: 768px) {
-  .section { padding: 56px 0 64px; }
-  .header { top: 90px; margin-bottom: 32px; }
+  .section { padding: 100px 0 64px; }
+  .header { top: 100px; margin-bottom: 32px; }
   .formWrap { padding: 28px 22px; }
 }
 
@@ -489,11 +498,30 @@
   .selectedLocation { padding: 12px 16px; }
   .changeBtn { width: 100%; text-align: center; }
   .authNudge { margin-top: 14px; }
+
+  /* FIX: keep the header sticky (it should stay frozen under the navbar
+     while scrolling) but make sure nothing else can ever render underneath
+     it. Giving it an opaque background + a touch of shadow visually
+     separates it from the content below, and bumping margin-bottom below it
+     guarantees the selected-location banner never starts underneath its
+     stuck position. */
+  .header {
+    background: var(--off-white);
+    box-shadow: 0 6px 10px -8px rgba(0, 0, 0, 0.15);
+    margin-bottom: 44px;
+  }
+
+  /* Extra breathing room so the location cards / selected-location banner
+     and the first field row are never crowded/hidden under anything above
+     them. */
+  .stepSection { gap: 4px; }
+  .locationGrid { margin-top: 8px; }
+  .selectedLocation { margin-top: 16px; margin-bottom: 8px; }
 }
 
 /* Small phone: single-column location cards, tighter spacing */
 @media (max-width: 480px) {
-  .section { padding: 40px 0 48px; }
+  .section { padding: 96px 0 48px; }
   .heading { font-size: clamp(24px, 7vw, 30px); }
   .sub { font-size: 14px; }
   .locationGrid { grid-template-columns: 1fr; }
@@ -508,10 +536,17 @@
   .submitBtn { font-size: 14px; padding: 12px 20px; }
   .successCard { padding: 36px 16px; }
   .successIcon { width: 52px; height: 52px; font-size: 22px; }
+
+  /* More vertical space between banner / step label / fields on very
+     small screens where things were tightest. */
+  .selectedLocation { padding: 14px 16px; margin-bottom: 12px; }
+  .stepLabel { margin-top: 20px !important; margin-bottom: 16px; }
+  .formRow { margin-bottom: 20px; }
+  .field { gap: 8px; }
 }
 
 @media (max-width: 480px) {
-  .header { margin-bottom: 14px; }
+  .header { margin-bottom: 20px; }
   .sub { max-width: 100%; }
   .authNudge {
     padding: 10px 12px;
