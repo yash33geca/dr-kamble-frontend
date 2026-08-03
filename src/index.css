@@ -121,3 +121,13 @@ button {
   background: var(--navy);
   color: white;
 }
+
+
+/* Add this to index.css, right after the body rule.
+   Prevents any stray horizontal overflow (e.g. from a mobile menu panel)
+   from adding a scrollbar that shrinks the effective viewport width used
+   by other components' media queries. */
+
+html, body {
+  overflow-x: hidden;
+}

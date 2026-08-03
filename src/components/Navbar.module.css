@@ -5,14 +5,14 @@
   right: 0;
   z-index: 100;
   padding: 20px 0;
-  transition: all 0.3s ease;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
   background: rgba(255, 255, 255, 0.97);
 }
 
+/* Constant height on every page/scroll state — only visual polish changes,
+   never the box size, so pages can safely offset content by a fixed navbar height. */
 .navbar.scrolled {
   backdrop-filter: blur(8px);
-  padding: 12px 0;
-  border-bottom: 1px solid var(--gray-100);
   box-shadow: var(--shadow-sm);
 }
 
@@ -82,6 +82,7 @@
 }
 
 .link {
+  position: relative;
   font-size: 14px;
   font-weight: 500;
   color: var(--gray-700);
@@ -93,6 +94,32 @@
 .link:hover {
   color: var(--navy);
   background: var(--gray-50);
+}
+
+/* Current page/section indicator */
+.link.active {
+  color: var(--teal);
+  background: var(--teal-light);
+  font-weight: 600;
+}
+
+.link.active:hover {
+  color: var(--teal);
+  background: var(--teal-light);
+}
+
+/* Small dot under the active link, desktop only — mirrors the badge dot
+   style used elsewhere on the site */
+.link.active::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 2px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--teal);
+  transform: translateX(-50%);
 }
 
 .ctaBtn {
@@ -283,7 +310,10 @@
 }
 
 /* ── Responsive ─────────────────────────────────────────────────────────────── */
-@media (max-width: 768px) {
+/* Raised from 768px to 1024px: at 820px (iPad Air) the desktop row — logo +
+   6 links + CTA + sign-in — doesn't fit and clips the CTA button off-screen.
+   Tablets now get the hamburger/full-screen menu instead. */
+@media (max-width: 1024px) {
   .brandMark {
     width: 48px;
     height: 48px;
@@ -326,6 +356,12 @@
     padding: 12px 24px;
   }
 
+  /* The underline dot doesn't read well against the larger, centered mobile
+     link text — the background highlight alone is enough here */
+  .link.active::after {
+    display: none;
+  }
+
   .ctaBtn {
     margin-left: 0;
     margin-top: 16px;
@@ -338,38 +374,9 @@
   }
 }
 
-/* Extra-narrow phones: after login the avatar+chevron take more
-   width than the old "Sign in" button did, which was pushing the
-   hamburger off-screen. Shrink the brand block instead so the
-   hamburger/avatar always stay on-screen and tappable. */
-@media (max-width: 400px) {
-  .inner {
-    gap: 12px;
-  }
-
-  .brandMark {
-    width: 38px;
-    height: 38px;
-  }
-
+/* Small phones: trim brand text so the hamburger/right slot never crowds it */
+@media (max-width: 380px) {
   .brandSub {
     display: none;
-  }
-
-  .brandName {
-    font-size: 14px;
-  }
-
-  .rightSlot {
-    gap: 8px;
-  }
-
-  .avatarBtn {
-    gap: 4px;
-    padding: 3px;
-  }
-
-  .chevron {
-    margin-right: 2px;
   }
 }
