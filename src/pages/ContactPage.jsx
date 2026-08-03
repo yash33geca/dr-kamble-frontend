@@ -64,7 +64,7 @@ export default function ContactPage() {
               />
             </div>
 
-            <Link className={styles.bookNowButton} to="/contact">
+            <Link className={styles.bookNowButton} to="/appointment">
               🗓️ Book Appointment Now
             </Link>
 
