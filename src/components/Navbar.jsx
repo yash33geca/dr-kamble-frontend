@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import LoginModal from './LoginModal'
 import styles from './Navbar.module.css'
@@ -14,6 +14,13 @@ const navLinks = [
   { label: 'Contact', to: '/contact' },
 ]
 
+// Splits a link's `to` (e.g. "/#about" or "/website/contact") into its
+// pathname and hash, so it can be compared against the current location.
+function parseLink(to) {
+  const [path, hash] = to.split('#')
+  return { path: path || '/', hash: hash ? `#${hash}` : '' }
+}
+
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
@@ -23,6 +30,7 @@ export default function Navbar() {
 
   const { user, signOut } = useAuth()
   const navigate = useNavigate()
+  const location = useLocation()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
@@ -61,7 +69,9 @@ export default function Navbar() {
 
   useEffect(() => {
     const onResize = () => {
-      if (window.innerWidth > 768) {
+      // Keep this in sync with the CSS breakpoint below (1024px) — anything
+      // narrower than that uses the hamburger/full-screen menu.
+      if (window.innerWidth > 1024) {
         setMenuOpen(false)
       }
     }
@@ -87,6 +97,19 @@ export default function Navbar() {
     navigate('/contact')
   }
 
+  // A link counts as active if:
+  //  - it's a real route (e.g. "/website/contact") and the pathname matches, or
+  //  - it's a hash link (e.g. "/#about") and both the pathname AND hash match.
+  //    Without checking the hash too, every hash link would appear "active"
+  //    on the homepage at all times.
+  const isLinkActive = (to) => {
+    const { path, hash } = parseLink(to)
+    if (hash) {
+      return location.pathname === path && location.hash === hash
+    }
+    return location.pathname === path
+  }
+
   const initials = user?.displayName
     ? user.displayName.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase()
     : '?'
@@ -107,8 +130,13 @@ export default function Navbar() {
 
           <nav id="primary-navigation" className={`${styles.links} ${menuOpen ? styles.open : ''}`}>
             {navLinks.map(link => (
-              <Link key={link.label} to={link.to} className={styles.link}
-                onClick={() => setMenuOpen(false)}>
+              <Link
+                key={link.label}
+                to={link.to}
+                className={`${styles.link} ${isLinkActive(link.to) ? styles.active : ''}`}
+                aria-current={isLinkActive(link.to) ? 'page' : undefined}
+                onClick={() => setMenuOpen(false)}
+              >
                 {link.label}
               </Link>
             ))}

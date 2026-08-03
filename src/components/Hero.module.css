@@ -246,29 +246,49 @@
   border-radius: 20px;
 }
 
-/* ===== Responsive ===== */
+/* ===== Responsive =====
+   Breakpoint aligned to 1024px to match Navbar.module.css's hamburger
+   breakpoint. Keeping these in sync avoids a "dead zone" between the two
+   breakpoints where the navbar's full desktop row (logo + 6 links + CTA +
+   sign-in) doesn't fit and overflows horizontally, which can shrink the
+   effective viewport width and throw off Hero's own layout. */
 
-/* Tablet range (covers iPad portrait/landscape, ~768–1180px):
-   keep the doctor photo visible from 912px wide and above,
-   and keep all 4 stats on a single line. */
-@media (max-width: 1180px) {
+@media (max-width: 1024px) {
   .hero {
+    /* Content is naturally shorter than the viewport on tablets/narrow
+       screens, so forcing min-height: 100vh + align-items: center leaves a
+       large empty gap above and below the content. Let it sit near the top
+       instead. */
     min-height: auto;
-    padding: 112px 0 56px;
+    align-items: flex-start;
   }
 
   .inner {
-    grid-template-columns: minmax(0, 1fr) minmax(280px, 320px);
-    gap: 32px;
-  }
-
-  .visual {
-    width: 100%;
-    justify-self: end;
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 340px);
+    gap: 40px;
   }
 
   .photoImg {
     height: 390px;
+  }
+
+  .stats {
+    gap: 24px;
+  }
+
+  .stat {
+    padding-right: 24px;
+  }
+}
+
+@media (max-width: 900px) {
+  .inner {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+
+  .visual {
+    display: none; /* keep this mobile-hidden for now */
   }
 
   .bgCircle1 {
@@ -288,50 +308,48 @@
   }
 
   .stats {
-    grid-template-columns: repeat(4, auto);
-    gap: 16px;
+    padding-top: 24px;
+    gap: 12px;
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .stat {
-    padding-right: 16px;
+    padding-right: 0;
   }
 
-  .statVal {
-    font-size: 22px;
-  }
-
-  .statLabel {
-    font-size: 10.5px;
-    white-space: normal;
-  }
-}
-
-@media (max-width: 911px) {
-  .inner {
-    grid-template-columns: 1fr;
-  }
-
-  .visual {
+  .stat:not(:last-child)::after {
     display: none;
   }
 }
 
 @media (max-width: 480px) {
   .hero {
-    padding: 96px 0 48px;
-    min-height: auto;
+    padding: 100px 0 56px;
   }
 
-  .actions { margin-bottom: 32px; }
+  .actions {
+    margin-bottom: 32px;
+    flex-direction: column;
+  }
+
   .stats {
     padding-top: 24px;
-    gap: 12px;
-    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
   }
-  .stat {
-    padding-right: 0;
+
+  .bgCircle1 {
+    width: 280px;
+    height: 280px;
+    top: -100px;
+    right: -100px;
+    opacity: 0.45;
   }
-  .stat:not(:last-child)::after {
-    display: none;
+
+  .bgCircle2 {
+    width: 180px;
+    height: 180px;
+    bottom: -40px;
+    left: -60px;
+    opacity: 0.35;
   }
 }

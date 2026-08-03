@@ -6,6 +6,7 @@ import ArticlePage from './pages/ArticlePage'
 import LoginPage from './pages/LoginPage'
 import './index.css'
 import Contact from './components/Contact'
+import ContactPage from './pages/ContactPage'
 import AllServicesPage from './pages/AllServicesPage'
 
 function ScrollToTop() {
@@ -39,7 +40,7 @@ export default function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/articles/:slug" element={<ArticlePage />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/website/contact" element={<Contact />} />
+          <Route path="/website/contact" element={<ContactPage />} />
           <Route path="/services" element={<AllServicesPage />} />
           <Route path="/*" element={<HomePage />} />
           <Route path="/services" element={<AllServicesPage />} />

@@ -126,6 +126,64 @@
   filter: grayscale(0) contrast(1) opacity(1);
 }
 
+/* Social icons — their own 3rd grid column, next to Clinic and Location */
+.socialsCol {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  justify-self: center;
+}
+
+.socials {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px 32px;
+  max-width: 200px;
+}
+
+.socialIcon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+}
+
+.socialIconCircle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.6);
+  transition: background var(--transition), color var(--transition), transform var(--transition);
+}
+
+.socialIconCircle svg {
+  width: 18px;
+  height: 18px;
+}
+
+.socialIconLabel {
+  font-size: 11.5px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.45);
+  transition: color var(--transition);
+}
+
+.socialIcon:hover .socialIconCircle {
+  background: var(--teal);
+  color: white;
+  transform: translateY(-2px);
+}
+
+.socialIcon:hover .socialIconLabel {
+  color: white;
+}
+
 .conditionsCol {
   grid-column: 1 / -1;
 }
@@ -174,8 +232,14 @@
     grid-template-columns: 1fr 1fr;
   }
 
-  .mapCol {
+  .socialsCol {
     grid-column: 1 / -1;
+    align-items: center;
+    text-align: center;
+  }
+
+  .socials {
+    margin: 0 auto;
   }
 
   .mapEmbed {
@@ -219,5 +283,32 @@
   .link {
     display: inline-block;
     margin-bottom: 0;
+  }
+
+  /* Mobile: revert to a plain left-aligned row of icons, no labels */
+  .socialsCol {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .socials {
+    grid-template-columns: repeat(4, auto);
+    gap: 10px;
+    max-width: none;
+    margin: 0;
+    justify-content: flex-start;
+  }
+
+  .socialIcon {
+    flex-direction: row;
+  }
+
+  .socialIconCircle {
+    width: 36px;
+    height: 36px;
+  }
+
+  .socialIconLabel {
+    display: none;
   }
 }

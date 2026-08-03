@@ -41,6 +41,16 @@ export default function Contact() {
     }
   }, [user])
 
+  // Switching between Step 1 (long location list) and Step 2 (short form)
+  // changes the page's total height a lot. If you were scrolled deep into
+  // the location list when you picked one, the browser can't hold that
+  // scroll position against the now-much-shorter page and snaps down to
+  // whatever is now at the bottom (the footer). Scroll back up whenever
+  // the selected location changes so each step always opens from the top.
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'auto' })
+  }, [locationId])
+
   const selectedLocation = LOCATIONS.find(l => l.id === locationId)
 
   const handleChange = e => {
@@ -117,7 +127,11 @@ export default function Contact() {
   return (
     <section id="contact" className={styles.section}>
       <div className="container">
+
         <Navbar />
+
+        {/* Sticky heading: stays pinned just below the (fixed, constant-height)
+            navbar while scrolling through the location cards / form below. */}
         <div className={styles.header}>
           <h2 className={styles.heading}>Book an Appointment</h2>
           <p className={styles.sub}>
