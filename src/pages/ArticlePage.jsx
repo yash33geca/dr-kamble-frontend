@@ -63,7 +63,7 @@ export default function ArticlePage() {
           <div className={styles.cta}>
             <h3>Have questions about this condition?</h3>
             <p>Dr. Kamble's clinic is accepting new patients. Book a consultation to discuss your concerns.</p>
-            <Link to="/contact" className="btn-primary">Book an Appointment →</Link>
+            <Link to="/appointment" className="btn-primary">Book an Appointment →</Link>
           </div>
         </div>
       </article>
