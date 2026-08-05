@@ -7,13 +7,13 @@
 
 /* ── Header ──
    Navbar is position:fixed (see Navbar.module.css) with a constant height of
-   ~94px desktop / ~88px mobile. This header sticks just below it, so it stays
-   visible while the user scrolls through the location cards / form below,
-   without ever being hidden underneath the navbar. */
+   ~94px desktop / ~88px mobile. On desktop/tablet, this header sits normally
+   in the page flow. On mobile only, it becomes sticky while the user scrolls
+   through the location cards below.
+*/
 .header {
-  position: sticky;
-  top: 96px;
-  z-index: 30;
+  position: static;
+  top: auto;
   background: var(--off-white);
   padding-top: 8px;
   padding-bottom: 8px;
@@ -499,13 +499,11 @@
   .changeBtn { width: 100%; text-align: center; }
   .authNudge { margin-top: 14px; }
 
-  /* FIX: keep the header sticky (it should stay frozen under the navbar
-     while scrolling) but make sure nothing else can ever render underneath
-     it. Giving it an opaque background + a touch of shadow visually
-     separates it from the content below, and bumping margin-bottom below it
-     guarantees the selected-location banner never starts underneath its
-     stuck position. */
+  /* FIX: keep the header sticky only on mobile. */
   .header {
+    position: sticky;
+    top: 100px;
+    z-index: 30;
     background: var(--off-white);
     box-shadow: 0 6px 10px -8px rgba(0, 0, 0, 0.15);
     margin-bottom: 44px;
