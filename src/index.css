@@ -126,8 +126,17 @@ button {
 /* Add this to index.css, right after the body rule.
    Prevents any stray horizontal overflow (e.g. from a mobile menu panel)
    from adding a scrollbar that shrinks the effective viewport width used
-   by other components' media queries. */
+   by other components' media queries.
+
+   IMPORTANT: use `overflow-x: clip`, not `overflow-x: hidden`, here.
+   Per spec, setting overflow-x to anything but `visible` while overflow-y
+   is left unset forces overflow-y to compute as `auto` — which silently
+   turns html/body into a scroll container. That breaks `position: sticky`
+   for any element inside it (its nearest scrolling ancestor becomes
+   html/body instead of the real viewport), which is why "Book an
+   Appointment" wasn't freezing in place while scrolling. `clip` gives the
+   same "no horizontal scrollbar" result without that side effect. */
 
 html, body {
-  overflow-x: hidden;
+  overflow-x: clip;
 }

@@ -151,7 +151,7 @@ export default function ContactPage() {
           </div>
         </section>
 
-        <section className={styles.socialSection}>
+        {/* <section className={styles.socialSection}>
           <p className={styles.followTitle}>Follow Us</p>
           <div className={styles.socialLinks}>
             <a className={styles.socialButton} href={FACEBOOK_URL} target="_blank" rel="noreferrer">Facebook</a>
@@ -159,7 +159,7 @@ export default function ContactPage() {
             <a className={styles.socialButton} href={INSTAGRAM_URL} target="_blank" rel="noreferrer">Instagram</a>
             <a className={styles.socialButton} href={LINKEDIN_URL} target="_blank" rel="noreferrer">LinkedIn</a>
           </div>
-        </section>
+        </section> */}
       </main>
       <Footer />
     </>

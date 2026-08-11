@@ -131,8 +131,11 @@ export default function Contact() {
         <Navbar />
 
         {/* Sticky heading: stays pinned just below the (fixed, constant-height)
-            navbar while scrolling through the location cards / form below. */}
-        <div className={styles.header}>
+            navbar while scrolling through the location cards below. Once a
+            location is picked and Step 2 (the short details form) is shown,
+            there's no long list to scroll past anymore, so we drop the
+            sticky pin (via .headerStatic) and let it sit normally in flow. */}
+        <div className={`${styles.header} ${locationId ? styles.headerStatic : ''}`}>
           <h2 className={styles.heading}>Book an Appointment</h2>
           <p className={styles.sub}>
             Choose your preferred location and we'll confirm your appointment within a few hours.
